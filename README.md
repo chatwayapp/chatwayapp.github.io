@@ -1,2 +1,2 @@
 # chatway
-chat anywhere
+## chat anywhere
