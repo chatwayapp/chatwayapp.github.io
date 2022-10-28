@@ -62,12 +62,3 @@ main {
 .scrollarea {
     overflow-y: auto;
 }
-
-.nav-link {
-    font-size: 18px;
-}
-
-a.nav-link.active {
-    display: flex;
-    align-items: center;
-}
