@@ -1,4 +1,5 @@
 var script = (function () {
-  let text: string = "Hello, world!";
-  console.log(text);
+  let message: string = "Hello, world!";
+  console.log(message);
+  console.log(typeof message);
 })();
