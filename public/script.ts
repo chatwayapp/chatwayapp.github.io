@@ -22,10 +22,25 @@ var script = (function () {
             $(this).removeClass('active');
           }
         });
+        $('.content-main').each(function () {
+          if ('#' + ($(this).attr('id') || '').replace('-pane', '') == hash) {
+            $(this).addClass('active');
+          } else {
+            $(this).removeClass('active');
+          }
+        });
       } else {
         location.hash = '#'
       }
     });
+  }
+
+  function test() {
+    console.log('test');
+  }
+
+  return {
+    test: test
   }
 
 })();
