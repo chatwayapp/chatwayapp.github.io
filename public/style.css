@@ -1,12 +1,72 @@
-.nav-link {
-    font-size: 18px;
+html,
+body {
+    background: rgb(30, 35, 40);
+    overflow: hidden;
 }
 
-a.nav-link.active {
+.sidebar {
+    color: white;
+    background: rgb(20, 25, 30);
+    height: calc(100vh - 32px) !important;
+    margin: 16px;
+    border-radius: 14px;
+}
+
+.nav-link {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    border-radius: 8px !important;
 }
 
-.dropdown-item.delete {
-    color: rgb(255, 25, 25);
+.nav-link:hover {
+    background-color: #224488;
+}
+
+.sidebar-item.icon {
+    margin: 0 8px 2px 0;
+}
+
+.credit-text {
+    font-size: 12px;
+    text-align: center;
+    color: #999;
+}
+
+.sidebar-user-image {
+    border-radius: 50%;
+    transition: all 250ms;
+}
+
+.sidebar-user-image:hover {
+    border-radius: 6px;
+}
+
+.sidebar-username {
+    font-weight: 600;
+    transition: all 250ms;
+}
+
+.sidebar-username:hover {
+    color: #bbbbbb;
+}
+
+.user-dropdown-toggle {
+    display: inline-flex !important;
+    outline: 0;
+    cursor: pointer;
+}
+
+.user-dropdown.show {
+    border-radius: 8px;
+    transform: translate3d(0px, -48px, 0px) !important;
+}
+
+.dropdown-item {
+    transition: all 250ms;
+}
+
+.dropdown-item.sign-out {
+    color: rgb(255, 75, 75);
 }
