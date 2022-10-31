@@ -23,7 +23,7 @@ var script = (function () {
           }
         });
         $('.content-main').each(function () {
-          if ('#' + ($(this).attr('id') || '').replace('-pane', '') == hash) {
+          if ('#' + ($(this).attr('id') || '').replace('home', '').replace('-pane', '') == hash) {
             $(this).addClass('active');
           } else {
             $(this).removeClass('active');
