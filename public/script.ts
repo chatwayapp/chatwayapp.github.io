@@ -1,6 +1,17 @@
 
 var script = (function () {
 
+  // Init
+
+  const app = new Realm.App({ id: 'chatwayapp-zsdqh' });
+
+  const credentials = Realm.Credentials.anonymous();
+
+  const user = await app.logIn(credentials);
+  console.log(user.id == app.currentUser.id ? 'logged in anonymously' : 'failed to log in');
+  console.log(user);
+  console.log(app.currentUser);
+
   // Hash detection UI changes
 
   const hashes = ['#', '#people', '#messages', '#groups', '#teams', '#projects']
