@@ -1,5 +1,5 @@
 
-var script = (function () {
+var script = (async function () {
 
   // Init
 

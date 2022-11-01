@@ -1,5 +1,5 @@
 "use strict";
-var script = (function () {
+var script = (async function () {
     // Init
     const app = new Realm.App({ id: 'chatwayapp-zsdqh' });
     const credentials = Realm.Credentials.anonymous();
