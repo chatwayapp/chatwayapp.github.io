@@ -3,9 +3,33 @@ var script = (async function () {
 
   // Init
 
+  const fbConfig = {
+    //...
+  };
+
   const app = new Realm.App({ id: 'chatwayapp-zsdqh' });
+  const fbApp = initializeApp(fbConfig);
+
+  const fbAuth = getAuth(app);
+
+  const ghAuthProvider = new GithubAuthProvider();
+
+  signInWithPopup(fbAuth, ghAuthProvider)
+    .then((result) => {
+      const ghCredentials = GithubAuthProvider.credentialFromResult(result);
+      const ghToken = ghCredentials.accessToken;
+      const ghUser = result.user;
+      console.log('Sign in with GitHub success.')
+      console.log(ghCredentials);
+      console.log(ghToken);
+      console.log(ghUser);
+    }).catch((error) => {
+      console.error(error);
+    });
 
   const credentials = Realm.Credentials.anonymous();
+
+  console.log(credentials);
 
   const user = await app.logIn(credentials);
   console.log(user.id == app.currentUser.id ? 'logged in anonymously' : 'failed to log in');
