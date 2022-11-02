@@ -93,7 +93,7 @@ var script = (async function () {
             console.error("Failed to log in", err);
         }
     }
-    function logOut() {
+    async function logOut() {
         signOut(fbAuth).then(() => {
             location.reload();
         }).catch((error) => {

@@ -108,7 +108,7 @@ var script = (async function () {
     }
   }
 
-  function logOut() {
+  async function logOut() {
     signOut(fbAuth).then(() => {
       location.reload();
     }).catch((error) => {
