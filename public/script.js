@@ -26,17 +26,16 @@ var script = (async function () {
 
     const ghAuthProvider = new GithubAuthProvider();
 
-    signInWithPopup(fbAuth, ghAuthProvider)
+
+    signInWithRedirect(fbAuth, ghAuthProvider);
+    getRedirectResult(fbAuth)
         .then((result) => {
             const ghCredentials = GithubAuthProvider.credentialFromResult(result);
-            // @ts-ignore
             const ghToken = ghCredentials.accessToken;
             const ghUser = result.user;
             var idToken = '';
-            // @ts-ignore
             result.user.getIdToken(true).then(function (token) {
                 idToken = token;
-                // @ts-ignore
             }).catch(function (error) {
                 alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
             });
@@ -52,7 +51,6 @@ var script = (async function () {
             console.error(error);
         });
 
-    // @ts-ignore
     const credentials = Realm.Credentials.anonymous();
 
     console.log(credentials);
