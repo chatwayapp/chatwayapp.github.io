@@ -1,7 +1,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js";
-import { getAuth, signInWithRedirect, signOut, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js";
+import { getAuth, signInWithRedirect, getRedirectResult, signOut, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js";
 
 var script = (async function () {
 
@@ -25,31 +25,6 @@ var script = (async function () {
     const fbAuth = getAuth(fbApp);
 
     const ghAuthProvider = new GithubAuthProvider();
-
-
-    signInWithRedirect(fbAuth, ghAuthProvider);
-    getRedirectResult(fbAuth)
-        .then((result) => {
-            const ghCredentials = GithubAuthProvider.credentialFromResult(result);
-            const ghToken = ghCredentials.accessToken;
-            const ghUser = result.user;
-            var idToken = '';
-            result.user.getIdToken(true).then(function (token) {
-                idToken = token;
-            }).catch(function (error) {
-                alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
-            });
-            console.log('Sign in with GitHub success.')
-            console.log(ghCredentials);
-            console.log(ghToken);
-            console.log(ghUser);
-            console.log(idToken);
-            jwtSignIn(idToken).then((user) => {
-                console.log("Successfully logged in with JWT through Realm!", user);
-            });
-        }).catch((error) => {
-            console.error(error);
-        });
 
     const credentials = Realm.Credentials.anonymous();
 
@@ -103,6 +78,32 @@ var script = (async function () {
         console.log('test');
     }
 
+    function ghSignIn() {
+        signInWithRedirect(fbAuth, ghAuthProvider);
+        getRedirectResult(fbAuth)
+            .then((result) => {
+                const ghCredentials = GithubAuthProvider.credentialFromResult(result);
+                const ghToken = ghCredentials.accessToken;
+                const ghUser = result.user;
+                var idToken = '';
+                result.user.getIdToken(true).then(function (token) {
+                    idToken = token;
+                }).catch(function (error) {
+                    alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
+                });
+                console.log('Sign in with GitHub success.')
+                console.log(ghCredentials);
+                console.log(ghToken);
+                console.log(ghUser);
+                console.log(idToken);
+                jwtSignIn(idToken).then((user) => {
+                    console.log("Successfully logged in with JWT through Realm!", user);
+                });
+            }).catch((error) => {
+                console.error(error);
+            });
+    }
+
     async function jwtSignIn(jwt) {
         const credentials = Realm.Credentials.jwt(jwt);
         try {
@@ -125,6 +126,7 @@ var script = (async function () {
 
     return {
         test: test,
+        ghSignIn: ghSignIn,
         logOut: logOut,
     }
 
