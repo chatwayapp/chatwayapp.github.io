@@ -1,4 +1,10 @@
 
+import $ from 'npm:jquery';
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js";
+import { getAuth, signInWithPopup, signOut, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js";
+
 var script = (async function () {
 
   // Init
@@ -25,11 +31,14 @@ var script = (async function () {
   signInWithPopup(fbAuth, ghAuthProvider)
     .then((result) => {
       const ghCredentials = GithubAuthProvider.credentialFromResult(result);
+      // @ts-ignore
       const ghToken = ghCredentials.accessToken;
       const ghUser = result.user;
       var idToken = '';
+      // @ts-ignore
       result.user.getIdToken(true).then(function (token) {
         idToken = token;
+        // @ts-ignore
       }).catch(function (error) {
         alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
       });
@@ -45,6 +54,7 @@ var script = (async function () {
       console.error(error);
     });
 
+  // @ts-ignore
   const credentials = Realm.Credentials.anonymous();
 
   console.log(credentials);
@@ -73,7 +83,7 @@ var script = (async function () {
     $(function () {
       const hash = location.hash == '' ? '#' : location.hash
       if (hashes.includes(hash)) {
-        $('.nav-link').each(function () {
+        $('.nav-link').each(() => {
           if (($(this).attr('href') || '') == hash) {
             $(this).addClass('active');
           } else {
