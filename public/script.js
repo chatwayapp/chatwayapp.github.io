@@ -20,9 +20,9 @@ var script = (async function () {
     const app = new Realm.App({ id: 'chatwayapp-zsdqh' });
     const fbApp = initializeApp(fbConfig);
 
-    const analytics = getAnalytics(app);
+    const analytics = getAnalytics(fbApp);
 
-    const fbAuth = getAuth(app);
+    const fbAuth = getAuth(fbApp);
 
     const ghAuthProvider = new GithubAuthProvider();
 
