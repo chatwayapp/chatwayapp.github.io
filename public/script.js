@@ -112,24 +112,24 @@ var script = (async function () {
             $('.sidebar-username').html(result.currentUser.displayName);
             $('.sidebar-user-image').attr('src', result.currentUser.photoURL);
             $('.item-signed-in-only').each(function () {
-                $(this).css('display', 'none');
-            });
-            $('#sign-out').removeClass('sign-out');
-            $('#sign-out').addClass('sign-in');
-            $('#sign-out').html('Sign In');
-            $('#sign-out').attr('id', 'sign-in');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
-        } else {
-            $('.sidebar-username').html('Anonymous');
-            $('.sidebar-user-image').attr('src', 'https://github.com/chatwayapp.png');
-            $('.item-signed-in-only').each(function () {
                 $(this).css('display', 'block');
             });
             $('#sign-in').removeClass('sign-in');
             $('#sign-in').addClass('sign-out');
             $('#sign-in').html('Sign Out');
             $('#sign-in').attr('id', 'sign-out');
+            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
+            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
+        } else {
+            $('.sidebar-username').html('Anonymous');
+            $('.sidebar-user-image').attr('src', 'https://github.com/chatwayapp.png');
+            $('.item-signed-in-only').each(function () {
+                $(this).css('display', 'none');
+            });
+            $('#sign-out').removeClass('sign-out');
+            $('#sign-out').addClass('sign-in');
+            $('#sign-out').html('Sign In');
+            $('#sign-out').attr('id', 'sign-in');
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
         }
