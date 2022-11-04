@@ -138,9 +138,11 @@ var script = (async function () {
         console.log(result.accessToken)
         jwtSignIn(result.accessToken).then((user) => {
             console.log("Successfully logged in with JWT through Realm!", user);
-            signedInUserChange(true, result)
-        }).catch((error) => {
-            console.error(error);
+            signedInUserChange(true, result);
+        }).catch(async (error) => {
+            user = await app.logIn(Realm.Credentials.anonymous());
+            signedInUserChange(false);
+            console.log(error);
         });
         // const ghCredentials = GithubAuthProvider.credentialFromResult(result);
         // if (ghCredentials) {
