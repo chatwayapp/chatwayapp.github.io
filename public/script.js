@@ -37,6 +37,7 @@ var script = (async function () {
         } else {
             console.log('Signed out of Firebase');
             user = await app.logIn(credentials);
+            signedInUserChange(false);
         }
     });
 
@@ -49,18 +50,6 @@ var script = (async function () {
     hashChange();
 
     // MAIN SCRIPT STRATS
-
-    signedInStyleSheet(authProvider != 'anon-user');
-
-    if (authProvider == 'anon-user') {
-        $('.item-signed-in-only').each(function () {
-            $(this).css('display', 'none');
-        });
-        $('#sign-out').removeClass('sign-out');
-        $('#sign-out').addClass('sign-in');
-        $('#sign-out').html('Sign In');
-        $('#sign-out').attr('id', 'sign-in');
-    }
 
     setTimeout(() => {
         $('.loading-container').css('width', '5vh');
@@ -80,11 +69,11 @@ var script = (async function () {
     $('#sign-in').on('click', function () {
         // change to sign in popup later
         signInWithPopup(fbAuth, ghAuthProvider)
-            .then((result) => {
-                ghSignIn(result)
-            }).catch((error) => {
-                console.error(error);
-            });
+            // .then((result) => {
+            //     ghSignIn(result)
+            // }).catch((error) => {
+            //     console.error(error);
+            // });
         return false;
     });
 
@@ -117,11 +106,29 @@ var script = (async function () {
         });
     }
 
-    function signedInStyleSheet(bool) {
+    function signedInUserChange(bool, result) {
         if (bool) {
+            $('.sidebar-username').html(result.currentUser.displayName);
+            $('.sidebar-user-image').attr('src', result.currentUser.photoURL);
+            $('.item-signed-in-only').each(function () {
+                $(this).css('display', 'none');
+            });
+            $('#sign-out').removeClass('sign-out');
+            $('#sign-out').addClass('sign-in');
+            $('#sign-out').html('Sign In');
+            $('#sign-out').attr('id', 'sign-in');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
         } else {
+            $('.sidebar-username').html('Anonymous');
+            $('.sidebar-user-image').attr('src', 'https://github.com/chatwayapp.png');
+            $('.item-signed-in-only').each(function () {
+                $(this).css('display', 'block');
+            });
+            $('#sign-in').removeClass('sign-in');
+            $('#sign-in').addClass('sign-out');
+            $('#sign-in').html('Sign Out');
+            $('#sign-in').attr('id', 'sign-out');
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
         }
@@ -131,6 +138,7 @@ var script = (async function () {
         console.log(result.accessToken)
         jwtSignIn(result.accessToken).then((user) => {
             console.log("Successfully logged in with JWT through Realm!", user);
+            signedInUserChange(true, result)
         }).catch((error) => {
             console.error(error);
         });
