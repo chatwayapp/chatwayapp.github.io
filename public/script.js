@@ -31,15 +31,6 @@ var script = (async function () {
 
     var user;
 
-    // signInWithPopup(fbAuth, ghAuthProvider)
-    //     .then((result) => {
-    //         console.log('ok')
-    //         ghSignIn(result)
-    //     }).catch((error) => {
-    //         console.log('no')
-    //         console.error(error);
-    //     });
-
     user = await app.logIn(credentials);
     signedInUserChange(false);
 
@@ -112,8 +103,8 @@ var script = (async function () {
     function signedInUserChange(bool, result) {
         if (bool) {
             console.log('sign in result', result);
-            $('.sidebar-username').html(result.currentUser.displayName);
-            $('.sidebar-user-image').attr('src', result.currentUser.photoURL);
+            $('.sidebar-username').html(result.user.displayName || fbAuth.currentUser.displayName);
+            $('.sidebar-user-image').attr('src', result.user.photoURL || fbAuth.currentUser.photoURL);
             $('.item-signed-in-only').each(function () {
                 $(this).css('display', 'block');
             });
@@ -140,9 +131,8 @@ var script = (async function () {
 
     async function ghSignIn(result) {
         console.log(result.accessToken)
-        jwtSignIn(result.accessToken).then((user) => {
-            console.log('fbAuth', fbAuth);
-            console.log("Successfully logged in with JWT through Realm!", user);
+        jwtSignIn(result.accessToken).then(() => {
+            console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
             signedInUserChange(true, result);
         }).catch(async (error) => {
             user = await app.logIn(Realm.Credentials.anonymous());
@@ -178,8 +168,6 @@ var script = (async function () {
         credentials = Realm.Credentials.jwt(jwt);
         try {
             user = await app.logIn(credentials);
-            console.assert(user.id === app.currentUser.id);
-            return user;
         } catch (err) {
             console.error("Failed to log in", err);
         }
