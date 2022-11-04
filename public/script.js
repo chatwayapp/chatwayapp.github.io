@@ -7,6 +7,8 @@ var script = (async function () {
 
     // Init
 
+    $('loading').css('opacity', 1);
+
     const fbConfig = {
         apiKey: "AIzaSyCKyB0DjjSJc1nF5lq8OITRZz7PNQtnZIg",
         authDomain: "chatway-app.firebaseapp.com",
@@ -23,17 +25,40 @@ var script = (async function () {
     const analytics = getAnalytics(fbApp);
 
     const fbAuth = getAuth(fbApp);
-
     const ghAuthProvider = new GithubAuthProvider();
 
-    const credentials = Realm.Credentials.anonymous();
+    var credentials = Realm.Credentials.anonymous();
 
-    console.log(credentials);
+    var user;
 
-    const user = await app.logIn(credentials);
-    console.log(user.id == app.currentUser.id ? 'logged in anonymously' : 'failed to log in');
-    console.log(user);
-    console.log(app.currentUser);
+    getRedirectResult(fbAuth)
+        .then((result) => {
+            console.log(result)
+            const ghCredentials = GithubAuthProvider.credentialFromResult(result);
+            if (ghCredentials) {
+                const ghToken = ghCredentials.accessToken;
+                const ghUser = result.user;
+                var idToken = '';
+                result.user.getIdToken(true).then(function (token) {
+                    idToken = token;
+                }).catch(function (error) {
+                    alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
+                });
+                console.log('Sign in with GitHub success.')
+                console.log(ghCredentials);
+                console.log(ghToken);
+                console.log(ghUser);
+                console.log(idToken);
+                jwtSignIn(idToken).then((user) => {
+                    console.log("Successfully logged in with JWT through Realm!", user);
+                });
+            }
+        }).catch(async (error) => {
+            console.log('Sign in failed (Firebase - Get Redirect Result, ' + error.code + '): ' + error.message + '', GithubAuthProvider.credentialFromError(error));
+            user = await app.logIn(credentials);
+        });
+
+    var authProvider = app.currentUser.identities[0].providerType;
 
     // Hash detection UI changes
 
@@ -41,11 +66,42 @@ var script = (async function () {
 
     hashChange();
 
+    // MAIN SCRIPT STRATS
+
+    signedInStyleSheet(authProvider != 'anon-user');
+
+    if (authProvider == 'anon-user') {
+        $('.item-signed-in-only').each(function () {
+            $(this).css('display', 'none');
+        });
+        $('#sign-out').removeClass('sign-out');
+        $('#sign-out').addClass('sign-in');
+        $('#sign-out').html('Sign In');
+        $('#sign-out').attr('id', 'sign-in');
+    }
+
+    setTimeout(() => {
+        $('.loading-container').css('width', '5vh');
+        $('.loading-container').css('height', '5vh');
+        $('.loading-container').css('border-radius', '50%');
+        $('.loading-container').css('opacity', 0);
+        $('.loading-container').css('margin-bottom', '125vh');
+        setTimeout(() => {
+            $('#loading-master').remove();
+        }, 750);
+    }, 750);
+
     $(window).on('hashchange', function () {
         hashChange();
     });
 
-    $('#sign-out').click(function () {
+    $('#sign-in').on('click', function () {
+        // change to sign in popup later
+        signInWithRedirect(fbAuth, ghAuthProvider);
+        return false;
+    });
+
+    $('#sign-out').on('click', function () {
         logOut();
         return false;
     });
@@ -54,7 +110,7 @@ var script = (async function () {
         $(function () {
             const hash = location.hash == '' ? '#' : location.hash
             if (hashes.includes(hash)) {
-                $('.nav-link').each(() => {
+                $('.nav-link').each(function () {
                     if (($(this).attr('href') || '') == hash) {
                         $(this).addClass('active');
                     } else {
@@ -74,40 +130,20 @@ var script = (async function () {
         });
     }
 
-    function test() {
-        console.log('test');
-    }
-
-    function ghSignIn() {
-        signInWithRedirect(fbAuth, ghAuthProvider);
-        getRedirectResult(fbAuth)
-            .then((result) => {
-                const ghCredentials = GithubAuthProvider.credentialFromResult(result);
-                const ghToken = ghCredentials.accessToken;
-                const ghUser = result.user;
-                var idToken = '';
-                result.user.getIdToken(true).then(function (token) {
-                    idToken = token;
-                }).catch(function (error) {
-                    alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
-                });
-                console.log('Sign in with GitHub success.')
-                console.log(ghCredentials);
-                console.log(ghToken);
-                console.log(ghUser);
-                console.log(idToken);
-                jwtSignIn(idToken).then((user) => {
-                    console.log("Successfully logged in with JWT through Realm!", user);
-                });
-            }).catch((error) => {
-                console.error(error);
-            });
+    function signedInStyleSheet(bool) {
+        if (bool) {
+            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
+            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
+        } else {
+            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
+            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
+        }
     }
 
     async function jwtSignIn(jwt) {
-        const credentials = Realm.Credentials.jwt(jwt);
+        credentials = Realm.Credentials.jwt(jwt);
         try {
-            const user = await app.logIn(credentials);
+            user = await app.logIn(credentials);
             console.assert(user.id === app.currentUser.id);
             return user;
         } catch (err) {
@@ -122,12 +158,6 @@ var script = (async function () {
             alert('Sign out failed (Firebase, ${error.code}): ${error.message}');
         });
         await app.currentUser.logOut();
-    }
-
-    return {
-        test: test,
-        ghSignIn: ghSignIn,
-        logOut: logOut,
     }
 
 })();

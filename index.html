@@ -9,10 +9,18 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="./public/style.css">
     <link rel="stylesheet" href="./public/sidebar.css">
+    <link rel="alternate stylesheet" href="./public/user-dropdown/user-dropdown-signed-in.css">
+    <link rel="alternate stylesheet" href="./public/user-dropdown/user-dropdown-signed-out.css">
     <title>chatway</title>
 </head>
 
 <body>
+
+    <div id="loading-master" class="center-container full-s z-top p-fixed">
+        <div class="loading-container center-container full-s">
+            <loading />
+        </div>
+    </div>
 
     <div class="d-flex flex-column flex-shrink-0 p-3 sidebar" style="width: 280px; height: 100vh;">
         <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
@@ -106,15 +114,15 @@
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="https://github.com/chatwayapp.png" alt="" width="32" height="32"
                     class="sidebar-user-image me-2">
-                <strong class="sidebar-username">chatwayapp</strong>
+                <strong class="sidebar-username">Anonymous</strong>
             </span>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow user-dropdown">
-                <li><a class="dropdown-item" href="#">New...</a></li>
-                <li>
+                <li class="item-signed-in-only"><a class="dropdown-item" href="#">New...</a></li>
+                <li class="item-signed-in-only">
                     <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li class="item-signed-in-only"><a class="dropdown-item" href="#">Profile</a></li>
+                <li class="item-signed-in-only"><a class="dropdown-item" href="#">Settings</a></li>
                 <li><a id="sign-out" class="dropdown-item sign-out">Sign out</a></li>
             </ul>
         </div>
@@ -126,13 +134,13 @@
 
     <div id="home-pane" class="content-main">
         <div style="text-align: center;">
-            <h2 class="content-header">Welcome back, chatwayapp!</h2>
+            <h2 class="content-header">Welcome!</h2>
             <br>
             <div class="grid-2">
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
             </div>
         </div>
     </div>
@@ -142,10 +150,10 @@
             <h2 class="content-header">People Pane</h2>
             <br>
             <div class="grid-2">
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
             </div>
         </div>
     </div>
@@ -155,10 +163,10 @@
             <h2 class="content-header">Messages Pane</h2>
             <br>
             <div class="grid-2">
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
             </div>
         </div>
     </div>
@@ -168,10 +176,10 @@
             <h2 class="content-header">Groups Pane</h2>
             <br>
             <div class="grid-2">
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
             </div>
         </div>
     </div>
@@ -181,10 +189,10 @@
             <h2 class="content-header">Teams Pane</h2>
             <br>
             <div class="grid-2">
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
             </div>
         </div>
     </div>
@@ -194,10 +202,10 @@
             <h2 class="content-header">Projects Pane</h2>
             <br>
             <div class="grid-2">
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
-                <button onclick="script.test()" class="content-home-button">Button</button>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
+                <a href="#test" class="content-home-button a-btn">Button</a>
             </div>
         </div>
     </div>
