@@ -31,25 +31,17 @@ var script = (async function () {
 
     var user;
 
-    signInWithPopup(fbAuth, ghAuthProvider)
-        .then((result) => {
-            console.log('ok')
-            ghSignIn(result)
-        }).catch((error) => {
-            console.log('no')
-            console.error(error);
-        });
+    // signInWithPopup(fbAuth, ghAuthProvider)
+    //     .then((result) => {
+    //         console.log('ok')
+    //         ghSignIn(result)
+    //     }).catch((error) => {
+    //         console.log('no')
+    //         console.error(error);
+    //     });
 
-    onAuthStateChanged(fbAuth, async (result) => {
-        console.log('no precheck on auth changed result', result)
-        if (result != null) {
-            ghSignIn(result);
-        } else {
-            console.log('Signed out of Firebase');
-            user = await app.logIn(credentials);
-            signedInUserChange(false);
-        }
-    });
+    user = await app.logIn(credentials);
+    signedInUserChange(false);
 
     // Hash detection UI changes
 
@@ -76,7 +68,7 @@ var script = (async function () {
 
     $('#sign-in').on('click', function () {
         // change to sign in popup later
-        console.log('what')
+        console.log('what');
         signInWithPopup(fbAuth, ghAuthProvider)
             .then((result) => {
                 console.log('ok')
@@ -149,6 +141,7 @@ var script = (async function () {
     async function ghSignIn(result) {
         console.log(result.accessToken)
         jwtSignIn(result.accessToken).then((user) => {
+            console.log('fbAuth', fbAuth);
             console.log("Successfully logged in with JWT through Realm!", user);
             signedInUserChange(true, result);
         }).catch(async (error) => {
