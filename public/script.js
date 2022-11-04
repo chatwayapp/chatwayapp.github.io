@@ -31,7 +31,7 @@ var script = (async function () {
 
     var user;
 
-    onAuthStateChanged(fbAuth, (result) => {
+    onAuthStateChanged(fbAuth, async (result) => {
         if (result) {
             ghSignIn(result);
         } else {
