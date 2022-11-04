@@ -32,6 +32,7 @@ var script = (async function () {
     var user;
 
     onAuthStateChanged(fbAuth, async (result) => {
+        console.log('no precheck on auth changed result', result)
         if (result != null) {
             ghSignIn(result);
         } else {
@@ -107,8 +108,8 @@ var script = (async function () {
     }
 
     function signedInUserChange(bool, result) {
-        console.log('sign in result', result);
         if (bool) {
+            console.log('sign in result', result);
             $('.sidebar-username').html(result.currentUser.displayName);
             $('.sidebar-user-image').attr('src', result.currentUser.photoURL);
             $('.item-signed-in-only').each(function () {
