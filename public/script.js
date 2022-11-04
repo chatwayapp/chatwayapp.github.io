@@ -31,6 +31,15 @@ var script = (async function () {
 
     var user;
 
+    signInWithPopup(fbAuth, ghAuthProvider)
+        .then((result) => {
+            console.log('ok')
+            ghSignIn(result)
+        }).catch((error) => {
+            console.log('no')
+            console.error(error);
+        });
+
     onAuthStateChanged(fbAuth, async (result) => {
         console.log('no precheck on auth changed result', result)
         if (result != null) {
