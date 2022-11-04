@@ -32,7 +32,7 @@ var script = (async function () {
     var user;
 
     onAuthStateChanged(fbAuth, async (result) => {
-        if (result) {
+        if (result != null) {
             ghSignIn(result);
         } else {
             console.log('Signed out of Firebase');
@@ -69,11 +69,11 @@ var script = (async function () {
     $('#sign-in').on('click', function () {
         // change to sign in popup later
         signInWithPopup(fbAuth, ghAuthProvider)
-            // .then((result) => {
-            //     ghSignIn(result)
-            // }).catch((error) => {
-            //     console.error(error);
-            // });
+            .then((result) => {
+                ghSignIn(result)
+            }).catch((error) => {
+                console.error(error);
+            });
         return false;
     });
 
