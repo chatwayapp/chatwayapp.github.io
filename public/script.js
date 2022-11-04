@@ -1,7 +1,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js";
-import { getAuth, signInWithRedirect, getRedirectResult, signOut, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signInWithPopup, signOut, GithubAuthProvider } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-auth.js";
 
 var script = (async function () {
 
@@ -31,36 +31,14 @@ var script = (async function () {
 
     var user;
 
-    getRedirectResult(fbAuth)
-        .then((result) => {
-            console.log(result)
-            const ghCredentials = GithubAuthProvider.credentialFromResult(result);
-            if (ghCredentials) {
-                const ghToken = ghCredentials.accessToken;
-                const ghUser = result.user;
-                result.user.getIdToken(true).then(function (token) {
-                    console.log('Sign in with GitHub success.')
-                    console.log(ghCredentials);
-                    console.log(ghToken);
-                    console.log(ghUser);
-                    console.log(token);
-                    jwtSignIn(token).then((user) => {
-                        console.log("Successfully logged in with JWT through Realm!", user);
-                    });
-                }).catch(function (error) {
-                    alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
-                    console.log(ghCredentials);
-                    console.log(ghToken);
-                    console.log(ghUser);
-                    jwtSignIn(ghToken).then((user) => {
-                        console.log("Successfully logged in with JWT through Realm!", user);
-                    });
-                });
-            }
-        }).catch(async (error) => {
-            console.log('Sign in failed (Firebase - Get Redirect Result, ' + error.code + '): ' + error.message + '', GithubAuthProvider.credentialFromError(error));
+    onAuthStateChanged(fbAuth, (result) => {
+        if (result) {
+            ghSignIn(result);
+        } else {
+            console.log('Signed out of Firebase');
             user = await app.logIn(credentials);
-        });
+        }
+    });
 
     var authProvider = app.currentUser.identities[0].providerType;
 
@@ -101,7 +79,12 @@ var script = (async function () {
 
     $('#sign-in').on('click', function () {
         // change to sign in popup later
-        signInWithRedirect(fbAuth, ghAuthProvider);
+        signInWithPopup(fbAuth, ghAuthProvider)
+            .then((result) => {
+                ghSignIn(result)
+            }).catch((error) => {
+                console.error(error);
+            });
         return false;
     });
 
@@ -141,6 +124,33 @@ var script = (async function () {
         } else {
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
+        }
+    }
+
+    async function ghSignIn(result) {
+        console.log(result)
+        const ghCredentials = GithubAuthProvider.credentialFromResult(result);
+        if (ghCredentials) {
+            const ghToken = ghCredentials.accessToken;
+            const ghUser = result.user;
+            result.user.getIdToken(true).then(function (token) {
+                console.log('Sign in with GitHub success.')
+                console.log(ghCredentials);
+                console.log(ghToken);
+                console.log(ghUser);
+                console.log(token);
+                jwtSignIn(token).then((user) => {
+                    console.log("Successfully logged in with JWT through Realm!", user);
+                });
+            }).catch(function (error) {
+                alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
+                console.log(ghCredentials);
+                console.log(ghToken);
+                console.log(ghUser);
+                jwtSignIn(ghToken).then((user) => {
+                    console.log("Successfully logged in with JWT through Realm!", user);
+                });
+            });
         }
     }
 
