@@ -7,6 +7,8 @@ var script = (async function () {
 
     // Init
 
+    console.log('reilva');
+
     $('loading').css('opacity', 1);
 
     const fbConfig = {
@@ -59,22 +61,27 @@ var script = (async function () {
 
     $('#sign-in').on('click', function () {
         // change to sign in popup later
-        console.log('what');
-        signInWithPopup(fbAuth, ghAuthProvider)
-            .then((result) => {
-                console.log('ok')
-                ghSignIn(result)
-            }).catch((error) => {
-                console.log('no')
-                console.error(error);
-            });
+        if ($(this).attr('id') == 'sign-in') {
+            signInWithPopup(fbAuth, ghAuthProvider)
+                .then((result) => {
+                    ghSignIn(result)
+                }).catch((error) => {
+                    console.error(error);
+                });
+        }
         return false;
     });
 
-    // $('#sign-out').on('click', function () {
-    //     logOut();
-    //     return false;
-    // });
+    $('#sign-out').on('click', function () {
+        if ($(this).attr('id') == 'sign-out') {
+            logOut();
+        }
+        return false;
+    });
+
+    $('.dropdown-item').on('click', function () {
+        $('.user-dropdown').removeClass('show');
+    });
 
     function hashChange() {
         $(function () {
