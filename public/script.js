@@ -107,6 +107,7 @@ var script = (async function () {
     }
 
     function signedInUserChange(bool, result) {
+        console.log('sign in result', result);
         if (bool) {
             $('.sidebar-username').html(result.currentUser.displayName);
             $('.sidebar-user-image').attr('src', result.currentUser.photoURL);
