@@ -38,19 +38,23 @@ var script = (async function () {
             if (ghCredentials) {
                 const ghToken = ghCredentials.accessToken;
                 const ghUser = result.user;
-                var idToken = '';
                 result.user.getIdToken(true).then(function (token) {
-                    idToken = token;
+                    console.log('Sign in with GitHub success.')
+                    console.log(ghCredentials);
+                    console.log(ghToken);
+                    console.log(ghUser);
+                    console.log(token);
+                    jwtSignIn(token).then((user) => {
+                        console.log("Successfully logged in with JWT through Realm!", user);
+                    });
                 }).catch(function (error) {
                     alert('Sign in failed (Firebase - Get ID Token JWT, ${error.code}): ${error.message}');
-                });
-                console.log('Sign in with GitHub success.')
-                console.log(ghCredentials);
-                console.log(ghToken);
-                console.log(ghUser);
-                console.log(idToken);
-                jwtSignIn(idToken).then((user) => {
-                    console.log("Successfully logged in with JWT through Realm!", user);
+                    console.log(ghCredentials);
+                    console.log(ghToken);
+                    console.log(ghUser);
+                    jwtSignIn(ghToken).then((user) => {
+                        console.log("Successfully logged in with JWT through Realm!", user);
+                    });
                 });
             }
         }).catch(async (error) => {
