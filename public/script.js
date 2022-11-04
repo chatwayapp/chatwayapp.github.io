@@ -42,8 +42,6 @@ var script = (async function () {
         }
     });
 
-    var authProvider = app.currentUser.identities[0].providerType;
-
     // Hash detection UI changes
 
     const hashes = ['#', '#people', '#messages', '#groups', '#teams', '#projects']
@@ -69,19 +67,22 @@ var script = (async function () {
 
     $('#sign-in').on('click', function () {
         // change to sign in popup later
+        console.log('what')
         signInWithPopup(fbAuth, ghAuthProvider)
             .then((result) => {
+                console.log('ok')
                 ghSignIn(result)
             }).catch((error) => {
+                console.log('no')
                 console.error(error);
             });
         return false;
     });
 
-    $('#sign-out').on('click', function () {
-        logOut();
-        return false;
-    });
+    // $('#sign-out').on('click', function () {
+    //     logOut();
+    //     return false;
+    // });
 
     function hashChange() {
         $(function () {
