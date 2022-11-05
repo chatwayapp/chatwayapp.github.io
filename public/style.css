@@ -109,11 +109,13 @@ loading {
 
 .user-dropdown-toggle {
     display: inline-flex !important;
+    align-items: center !important;
     outline: 0;
     cursor: pointer;
 }
 
 .dropdown-item {
+    cursor: pointer;
     transition: all 250ms;
 }
 
