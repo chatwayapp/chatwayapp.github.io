@@ -7,8 +7,6 @@ var script = (async function () {
 
     // Init
 
-    console.log('reilva');
-
     $('loading').css('opacity', 1);
 
     const fbConfig = {
@@ -31,10 +29,20 @@ var script = (async function () {
 
     var credentials = Realm.Credentials.anonymous();
 
-    var user;
+    var user = await app.logIn(credentials);
+    const fbUser = fbAuth.currentUser;
 
-    user = await app.logIn(credentials);
-    signedInUserChange(false);
+    if (fbUser != null && fbUser.accessToken != user.accessToken) {
+        jwtSignIn(fbUser.accessToken).then(() => {
+            console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
+            signedInUserChange(true, { user: fbUser });
+        }).catch((error) => {
+            signedInUserChange(false);
+            console.log(error);
+        });
+    } else {
+        signedInUserChange(false);
+    }
 
     // Hash detection UI changes
 
@@ -57,26 +65,6 @@ var script = (async function () {
 
     $(window).on('hashchange', function () {
         hashChange();
-    });
-
-    $('#sign-in').on('click', function () {
-        // change to sign in popup later
-        if ($(this).attr('id') == 'sign-in') {
-            signInWithPopup(fbAuth, ghAuthProvider)
-                .then((result) => {
-                    ghSignIn(result)
-                }).catch((error) => {
-                    console.error(error);
-                });
-        }
-        return false;
-    });
-
-    $('#sign-out').on('click', function () {
-        if ($(this).attr('id') == 'sign-out') {
-            logOut();
-        }
-        return false;
     });
 
     $('.dropdown-item').on('click', function () {
@@ -115,10 +103,7 @@ var script = (async function () {
             $('.item-signed-in-only').each(function () {
                 $(this).css('display', 'block');
             });
-            $('#sign-in').removeClass('sign-in');
-            $('#sign-in').addClass('sign-out');
-            $('#sign-in').html('Sign Out');
-            $('#sign-in').attr('id', 'sign-out');
+            $('#user-action-button-holder').html('<a id="sign-out" class="dropdown-item sign-out">Sign Out</a>');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
         } else {
@@ -127,12 +112,37 @@ var script = (async function () {
             $('.item-signed-in-only').each(function () {
                 $(this).css('display', 'none');
             });
-            $('#sign-out').removeClass('sign-out');
-            $('#sign-out').addClass('sign-in');
-            $('#sign-out').html('Sign In');
-            $('#sign-out').attr('id', 'sign-in');
+            $('#user-action-button-holder').html('<a id="sign-in" class="dropdown-item sign-in" href="javascript:alert("Please enable popups for sign in to work! (Signing in with redirect is currently not working on Safari 16.1+, for more info, please visit issue #6716 for firebase-js-sdk on GitHub.)")">Sign In</a>');
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
+        }
+        homePanelWelcomeChange();
+        $('#sign-in').on('click', function () {
+            // change to sign in popup later
+            if ($(this).attr('id') == 'sign-in') {
+                signInWithPopup(fbAuth, ghAuthProvider)
+                    .then((result) => {
+                        ghSignIn(result)
+                    }).catch((error) => {
+                        console.error(error);
+                    });
+            }
+            return false;
+        });
+        $('#sign-out').on('click', function () {
+            console.log('asda')
+            if ($(this).attr('id') == 'sign-out') {
+                logOut();
+            }
+            return false;
+        });
+    }
+
+    function homePanelWelcomeChange() {
+        if (fbAuth.currentUser != null) {
+            $('#home-panel-welcome').html('Welcome back, ' + fbAuth.currentUser.displayName + '!');
+        } else {
+            $('#home-panel-welcome').html('Welcome!');
         }
     }
 
@@ -140,7 +150,9 @@ var script = (async function () {
         console.log(result.accessToken)
         jwtSignIn(result.accessToken).then(() => {
             console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
-            signedInUserChange(true, result);
+            setTimeout(() => {
+                location.reload();
+            }, 250);
         }).catch(async (error) => {
             user = await app.logIn(Realm.Credentials.anonymous());
             signedInUserChange(false);

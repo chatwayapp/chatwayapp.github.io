@@ -58,10 +58,35 @@ loading {
     margin: 0 8px 2px 0;
 }
 
+.credit-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64%;
+    height: 6px;
+    background: rgb(225, 240, 255);
+    border-radius: 64px;
+    transition: all 250ms;
+}
+
 .credit-text {
-    font-size: 12px;
+    padding: 4px;
+    color: transparent;
+    font-size: 0;
     text-align: center;
-    color: #999;
+    transition: all 250ms;
+}
+
+.credit-menu:hover {
+    width: 100%;
+    height: 26px;
+    margin-top: 6px;
+    border-radius: 12px;
+}
+
+.credit-menu:hover .credit-text {
+    color: rgb(20, 25, 30);
+    font-size: 12px;
 }
 
 .sidebar-user-image {
@@ -152,6 +177,13 @@ loading {
 }
 
 /* General */
+
+nothing {
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+}
 
 .center-container {
     display: flex;
