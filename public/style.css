@@ -99,6 +99,7 @@ loading {
 }
 
 .sidebar-username {
+    margin-top: 2.5px;
     font-weight: 600;
     transition: all 250ms;
 }

@@ -44,6 +44,12 @@ var script = (async function () {
         signedInUserChange(false);
     }
 
+    // mongoDB Atlas
+    const mongo = app.currentUser.mongoClient('mongodb-atlas');
+    const collection = mongo.db('sample_weatherdata').collection('data');
+
+    console.log('test data', collection.findOne({ st: "x+47600-047900" }));
+
     // Hash detection UI changes
 
     const hashes = ['#', '#people', '#messages', '#groups', '#teams', '#projects']
