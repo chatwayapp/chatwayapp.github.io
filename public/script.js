@@ -48,8 +48,6 @@ var script = (async function () {
     const mongo = app.currentUser.mongoClient('mongodb-atlas');
     const collection = mongo.db('sample_weatherdata').collection('data');
 
-    console.log('test data', collection.findOne({ st: "x+47600-047900" }));
-
     // Hash detection UI changes
 
     const hashes = ['#', '#people', '#messages', '#groups', '#teams', '#projects']
@@ -193,6 +191,7 @@ var script = (async function () {
         credentials = Realm.Credentials.jwt(jwt);
         try {
             user = await app.logIn(credentials);
+            console.log('test data', collection.findOne({ st: "x+47600-047900" }));
         } catch (err) {
             console.error("Failed to log in", err);
         }
