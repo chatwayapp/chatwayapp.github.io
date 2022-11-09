@@ -49,12 +49,6 @@ var script = (async function () {
     const collection = mongo.db('chatway').collection('chat');
     console.log('public chat data', await collection.findOne({ id: "aa0000" }));
 
-    // Hash detection UI changes
-
-    const hashes = ['#', '#people', '#messages', '#groups', '#teams', '#projects']
-
-    hashChange();
-
     // MAIN SCRIPT STRATS
 
     setTimeout(() => {
@@ -68,60 +62,8 @@ var script = (async function () {
         }, 750);
     }, 750);
 
-    $(window).on('hashchange', function () {
-        hashChange();
-    });
-
-    $('.dropdown-item').on('click', function () {
-        $('.user-dropdown').removeClass('show');
-    });
-
-    function hashChange() {
-        $(function () {
-            const hash = location.hash == '' ? '#' : location.hash
-            if (hashes.includes(hash)) {
-                $('.nav-link').each(function () {
-                    if (($(this).attr('href') || '') == hash) {
-                        $(this).addClass('active');
-                    } else {
-                        $(this).removeClass('active');
-                    }
-                });
-                $('.content-main').each(function () {
-                    if ('#' + ($(this).attr('id') || '').replace('home', '').replace('-pane', '') == hash) {
-                        $(this).addClass('active');
-                    } else {
-                        $(this).removeClass('active');
-                    }
-                });
-            } else {
-                location.hash = '#'
-            }
-        });
-    }
-
     function signedInUserChange(bool, result) {
-        if (bool) {
-            console.log('sign in result', result);
-            $('.sidebar-username').html(result.user.displayName || fbAuth.currentUser.displayName);
-            $('.sidebar-user-image').attr('src', result.user.photoURL || fbAuth.currentUser.photoURL);
-            $('.item-signed-in-only').each(function () {
-                $(this).css('display', 'block');
-            });
-            $('#user-action-button-holder').html('<a id="sign-out" class="dropdown-item sign-out">Sign Out</a>');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
-        } else {
-            $('.sidebar-username').html('Anonymous');
-            $('.sidebar-user-image').attr('src', 'https://github.com/chatwayapp.png');
-            $('.item-signed-in-only').each(function () {
-                $(this).css('display', 'none');
-            });
-            $('#user-action-button-holder').html('<a id="sign-in" class="dropdown-item sign-in" href="javascript:alert("Please enable popups for sign in to work! (Signing in with redirect is currently not working on Safari 16.1+, for more info, please visit issue #6716 for firebase-js-sdk on GitHub.)")">Sign In</a>');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
-        }
-        homePanelWelcomeChange();
+        welcomeChange();
         $('#sign-in').on('click', function () {
             // change to sign in popup later
             if ($(this).attr('id') == 'sign-in') {
@@ -143,11 +85,11 @@ var script = (async function () {
         });
     }
 
-    function homePanelWelcomeChange() {
+    function welcomeChange() {
         if (fbAuth.currentUser != null) {
-            $('#home-panel-welcome').html('Welcome back, ' + fbAuth.currentUser.displayName + '!');
+            $('#welcome').html('Welcome back, ' + fbAuth.currentUser.displayName + '!');
         } else {
-            $('#home-panel-welcome').html('Welcome!');
+            $('#welcome').html('Welcome!');
         }
     }
 
