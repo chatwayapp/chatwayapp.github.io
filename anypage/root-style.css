@@ -1,0 +1,15 @@
+chatway-anypage {
+    position: fixed;
+    width: 128px;
+    height: 128px;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 12px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+chatway-anypage iframe {
+    width: 128px;
+    height: 128px;
+    border: 0;
+}
