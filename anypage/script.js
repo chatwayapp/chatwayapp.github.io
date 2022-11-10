@@ -9,15 +9,20 @@ var script = (async function () {
 
     var bookmarkLauncherSetup = (function () {
         window.addEventListener('keyup', function () {
-            if (event.ctrlKey && event.altKey && String.fromCharCode(event.keyCode) == 'C') {
-                const show = $('body').css('display') != 'block';
-                console.log('shortcut pressed from iframe', show);
-                if (show) {
-                    $('html').css('background', 'rgba(30, 35, 40, 1)');
-                    $('body').css('display', 'block');
-                } else {
-                    $('html').css('background', 'rgba(30, 35, 40, 0)');
-                    $('body').css('display', 'none');
+            if (!event.shiftKey && event.altKey) {
+                switch (String.fromCharCode(event.keyCode)) {
+                    case 'C':
+                        const show = $('body').css('display') != 'block';
+                        console.log('shortcut pressed from iframe', show);
+                        if (show) {
+                            $('html').css('background', 'rgba(30, 35, 40, 1)');
+                            $('body').css('display', 'block');
+                        } else {
+                            $('html').css('background', 'rgba(30, 35, 40, 0)');
+                            $('body').css('display', 'none');
+                        }
+                    case 'R':
+                        location.reload();
                 }
             }
         });

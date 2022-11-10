@@ -8,19 +8,25 @@ document.head.appendChild(style);
 
 const anypage = document.createElement('chatway-anypage');
 const iframe = document.createElement('iframe');
+iframe.setAttribute('id', 'chatway-anypage');
 iframe.setAttribute('src', 'https://chatwayapp.github.io/anypage/chat.html');
 anypage.appendChild(iframe);
 document.body.appendChild(anypage);
 
 var bookmarkLauncherSetup = (function () {
     window.addEventListener('keyup', function () {
-        if (event.ctrlKey && event.altKey && String.fromCharCode(event.keyCode) == 'C') {
-            show = !show;
-            console.log('shortcut pressed', show);
-            if (show) {
-                document.querySelector('chatway-anypage').style.display = 'block';
-            } else {
-                document.querySelector('chatway-anypage').style.display = 'none';
+        if (!event.shiftKey && event.altKey) {
+            switch (String.fromCharCode(event.keyCode)) {
+                case 'C':
+                    show = !show;
+                    console.log('shortcut pressed', show);
+                    if (show) {
+                        document.querySelector('chatway-anypage').style.display = 'block';
+                    } else {
+                        document.querySelector('chatway-anypage').style.display = 'none';
+                    }
+                case 'R':
+                    document.getElementById('chatway-anypage').contentDocument.location.reload(true);
             }
         }
     });
