@@ -47,6 +47,16 @@ loading {
     background: rgb(40, 45, 50) !important;
 }
 
+#main-in input {
+    text-align: center;
+    margin: 4px;
+    padding: 6px 10px;
+    background: rgb(40, 45, 50);
+    color: white;
+    border: 0;
+    border-radius: 8px;
+}
+
 /* General */
 
 nothing {
