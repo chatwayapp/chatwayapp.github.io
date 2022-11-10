@@ -64,10 +64,10 @@ var script = (async function () {
 
     function signedInUserChange(bool, result) {
         if (bool) {
-            $('#main-in').css('display', 'block');
+            $('#main-in').css('display', 'flex');
             $('#main-out').css('display', 'none');
         } else {
-            $('#main-out').css('display', 'block');
+            $('#main-out').css('display', 'flex');
             $('#main-in').css('display', 'none');
         }
         welcomeChange();
