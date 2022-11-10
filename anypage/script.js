@@ -13,10 +13,10 @@ var script = (async function () {
                 const show = $('body').css('display') != 'block';
                 console.log('shortcut pressed from iframe', show);
                 if (show) {
-                    $('body').css('background', 'rgba(30, 35, 40, 1)');
+                    $('html').css('background', 'rgba(30, 35, 40, 1)');
                     $('body').css('display', 'block');
                 } else {
-                    $('body').css('background', 'rgba(30, 35, 40, 0)');
+                    $('html').css('background', 'rgba(30, 35, 40, 0)');
                     $('body').css('display', 'none');
                 }
             }
