@@ -39,7 +39,7 @@ loading {
     background: rgb(20, 25, 30);
     color: white;
     border: 0;
-    border-radius: 64px;
+    border-radius: 128px;
     cursor: pointer;
     transition: all 250ms;
 }
@@ -54,7 +54,7 @@ loading {
     background: rgb(40, 45, 50);
     color: white;
     border: 0;
-    border-radius: 64px;
+    border-radius: 128px;
     cursor: pointer;
     transition: all 250ms;
 }
@@ -78,7 +78,7 @@ loading {
     font-weight: 500;
     margin: 4px;
     padding: 6px 10px;
-    width: 64px;
+    width: 52px;
     background: rgb(20, 25, 30);
     color: white;
     border: 0;
@@ -89,7 +89,7 @@ loading {
 
 .join-btn:hover {
     background: rgb(40, 45, 50);
-    border-radius: 64px;
+    border-radius: 128px;
 }
 
 /* General */
