@@ -7,6 +7,24 @@ var script = (async function () {
 
     // Init
 
+    var bookmarkLauncherSetup = (function () {
+        window.addEventListener('keyup', function () {
+            if (event.ctrlKey && event.altKey && String.fromCharCode(event.keyCode) == 'C') {
+                const show = $('body').css('opacity') != '1';
+                console.log('shortcut pressed from iframe', show);
+                if (show) {
+                    $('body').css('opacity', 1);
+                    $('body').css('display', 'unset');
+                    $('#content').css('display', 'unset');
+                } else {
+                    $('body').css('opacity', 0);
+                    $('body').css('display', 'none');
+                    $('#content').css('display', 'none');
+                }
+            }
+        });
+    }());
+
     $('loading').css('opacity', 1);
 
     const fbConfig = {
