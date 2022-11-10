@@ -63,6 +63,13 @@ var script = (async function () {
     }, 750);
 
     function signedInUserChange(bool, result) {
+        if (bool) {
+            $('#main-in').css('display', 'block');
+            $('#main-out').css('display', 'none');
+        } else {
+            $('#main-out').css('display', 'block');
+            $('#main-in').css('display', 'none');
+        }
         welcomeChange();
         $('#sign-in').on('click', function () {
             // change to sign in popup later

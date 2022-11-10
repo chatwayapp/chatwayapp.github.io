@@ -35,11 +35,16 @@ loading {
 
 /* Welcome */
 .sign-in {
+    padding: 6px 10px;
     background: rgb(20, 25, 30);
     color: white;
     border: 0;
     border-radius: 100vw;
     transition: all 250ms;
+}
+
+.sign-in:hover {
+    background: rgb(40, 45, 50) !important;
 }
 
 /* General */
