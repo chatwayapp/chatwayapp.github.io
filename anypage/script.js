@@ -10,11 +10,11 @@ var script = (async function () {
     var bookmarkLauncherSetup = (function () {
         window.addEventListener('keyup', function () {
             if (event.ctrlKey && event.altKey && String.fromCharCode(event.keyCode) == 'C') {
-                const show = $('body').css('opacity') != '1';
+                const show = $('body').css('display') != 'block';
                 console.log('shortcut pressed from iframe', show);
                 if (show) {
                     $('body').css('background', 'rgba(30, 35, 40, 1)');
-                    $('body').css('display', 'unset');
+                    $('body').css('display', 'block');
                 } else {
                     $('body').css('background', 'rgba(30, 35, 40, 0)');
                     $('body').css('display', 'none');
