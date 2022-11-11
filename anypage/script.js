@@ -52,7 +52,7 @@ var script = (async function () {
     var user;
     const fbUser = fbAuth.currentUser;
 
-    console.log('fbAuth', fbUser);
+    console.log('fbAuth', getAuth(fbApp), fbUser);
 
     if (fbUser != null && fbUser.accessToken != user.accessToken) {
         jwtSignIn(fbUser.accessToken).then(() => {
@@ -128,7 +128,7 @@ var script = (async function () {
             console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
             setTimeout(() => {
                 location.reload();
-            }, 25000);
+            }, 250);
         }).catch(async (error) => {
             signedInUserChange(false);
             console.log(error);
