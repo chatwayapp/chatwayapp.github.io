@@ -98,7 +98,7 @@ var script = (async function () {
             if ($(this).attr('id') == 'sign-in') {
                 signInWithPopup(fbAuth, ghAuthProvider)
                     .then((result) => {
-                        ghSignIn(result)
+                        ghSignIn(result);
                     }).catch((error) => {
                         console.error(error);
                     });
@@ -123,7 +123,7 @@ var script = (async function () {
     }
 
     async function ghSignIn(result) {
-        console.log('ghToken', result.accessToken ?? 'no data')
+        console.log('ghResult', result ?? 'no data')
         jwtSignIn(result.accessToken).then(() => {
             console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
             setTimeout(() => {
