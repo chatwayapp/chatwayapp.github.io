@@ -48,9 +48,8 @@ var script = (async function () {
     const fbAuth = getAuth(fbApp);
     const ghAuthProvider = new GithubAuthProvider();
 
-    var credentials = Realm.Credentials.anonymous();
-
-    var user = await app.logIn(credentials);
+    var credentials;
+    var user;
     const fbUser = fbAuth.currentUser;
 
     if (fbUser != null && fbUser.accessToken != user.accessToken) {
@@ -129,7 +128,6 @@ var script = (async function () {
                 location.reload();
             }, 250);
         }).catch(async (error) => {
-            user = await app.logIn(Realm.Credentials.anonymous());
             signedInUserChange(false);
             console.log(error);
         });
