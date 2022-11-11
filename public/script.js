@@ -44,8 +44,8 @@ var script = (async function () {
     }
 
     // mongoDB Atlas
-    const mongo = app.currentUser.mongoClient('mongodb-atlas');
-    const collection = mongo.db('chatway').collection('chat');
+    const mongo;
+    const collection;
     console.log('public chat data', await collection.findOne({ id: "aa0000" }));
 
     // Hash detection UI changes
@@ -102,6 +102,8 @@ var script = (async function () {
     function signedInUserChange(bool, result) {
         if (bool) {
             console.log('sign in result', result);
+            mongo = app.currentUser.mongoClient('mongodb-atlas');
+            collection = mongo.db('chatway').collection('chat');
             $('.sidebar-username').html(result.user.displayName || fbAuth.currentUser.displayName);
             $('.sidebar-user-image').attr('src', result.user.photoURL || fbAuth.currentUser.photoURL);
             $('.item-signed-in-only').each(function () {

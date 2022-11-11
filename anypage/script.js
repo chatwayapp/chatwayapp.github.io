@@ -67,9 +67,8 @@ var script = (async function () {
     }
 
     // mongoDB Atlas
-    const mongo = app.currentUser.mongoClient('mongodb-atlas');
-    const collection = mongo.db('chatway').collection('chat');
-    console.log('public chat data', await collection.findOne({ id: "aa0000" }));
+    const mongo;
+    const collection;
 
     // MAIN SCRIPT STRATS
 
@@ -86,6 +85,8 @@ var script = (async function () {
 
     function signedInUserChange(bool, result) {
         if (bool) {
+            mongo = app.currentUser.mongoClient('mongodb-atlas');
+            collection = mongo.db('chatway').collection('chat');
             $('#main-in').css('display', 'flex');
             $('#main-out').css('display', 'none');
         } else {
