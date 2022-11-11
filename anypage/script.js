@@ -123,8 +123,8 @@ var script = (async function () {
     }
 
     async function ghSignIn(result) {
-        console.log('ghResult', result ?? 'no data')
-        jwtSignIn(result.accessToken).then(() => {
+        console.log('ghResult', result.user ?? 'no data')
+        jwtSignIn(result.user.accessToken).then(() => {
             console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
             setTimeout(() => {
                 location.reload();
