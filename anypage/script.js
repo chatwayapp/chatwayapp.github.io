@@ -52,7 +52,7 @@ var script = (async function () {
     var user;
     const fbUser = fbAuth.currentUser;
 
-    console.log('fbAuth', fbUser.accessToken ?? 'no data');
+    console.log('fbAuth', fbUser);
 
     if (fbUser != null && fbUser.accessToken != user.accessToken) {
         jwtSignIn(fbUser.accessToken).then(() => {
