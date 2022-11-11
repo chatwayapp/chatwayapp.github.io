@@ -31,6 +31,8 @@ var script = (async function () {
     var user;
     var fbUser = fbAuth.currentUser;
 
+    console.log('fbAuth', fbAuth, fbAuth['currentUser'], fbAuth.currentUser, fbUser);
+
     if (fbUser != null && fbUser.accessToken != user.accessToken) {
         jwtSignIn(fbUser.accessToken).then(() => {
             console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);

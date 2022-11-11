@@ -45,14 +45,14 @@ var script = (async function () {
 
     const analytics = getAnalytics(fbApp);
 
-    const fbAuth = await getAuth(fbApp);
+    const fbAuth = getAuth(fbApp);
     const ghAuthProvider = new GithubAuthProvider();
 
     var credentials;
     var user;
     var fbUser = fbAuth.currentUser;
 
-    console.log('fbAuth', fbAuth['currentUser'], fbUser);
+    console.log('fbAuth', fbAuth, fbAuth['currentUser'], fbAuth.currentUser, fbUser);
 
     if (fbUser != null && fbUser.accessToken != user.accessToken) {
         jwtSignIn(fbUser.accessToken).then(() => {
