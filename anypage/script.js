@@ -50,7 +50,7 @@ var script = (async function () {
 
     var credentials;
     var user;
-    const fbUser = fbAuth.currentUser;
+    var fbUser = fbAuth.currentUser;
 
     console.log('fbAuth', getAuth(fbApp), fbUser);
 
@@ -67,8 +67,8 @@ var script = (async function () {
     }
 
     // mongoDB Atlas
-    const mongo;
-    const collection;
+    var mongo;
+    var collection;
 
     // MAIN SCRIPT STRATS
 

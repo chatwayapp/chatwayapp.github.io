@@ -29,7 +29,7 @@ var script = (async function () {
 
     var credentials;
     var user;
-    const fbUser = fbAuth.currentUser;
+    var fbUser = fbAuth.currentUser;
 
     if (fbUser != null && fbUser.accessToken != user.accessToken) {
         jwtSignIn(fbUser.accessToken).then(() => {
@@ -44,8 +44,8 @@ var script = (async function () {
     }
 
     // mongoDB Atlas
-    const mongo;
-    const collection;
+    var mongo;
+    var collection;
     console.log('public chat data', await collection.findOne({ id: "aa0000" }));
 
     // Hash detection UI changes
