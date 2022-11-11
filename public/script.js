@@ -46,7 +46,6 @@ var script = (async function () {
     // mongoDB Atlas
     var mongo;
     var collection;
-    console.log('public chat data', await collection.findOne({ id: "aa0000" }));
 
     // Hash detection UI changes
 
