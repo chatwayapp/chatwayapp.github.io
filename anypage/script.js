@@ -128,7 +128,7 @@ var script = (async function () {
             console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
             setTimeout(() => {
                 location.reload();
-            }, 250);
+            }, 25000);
         }).catch(async (error) => {
             signedInUserChange(false);
             console.log(error);
