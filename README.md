@@ -1,2 +1,2 @@
 # chatway
-## !!! chatway is currently in early development, view dev branch to see full source code.
+### ⚠️ chatway is currently in early development, please switch to the dev branch for more information.
