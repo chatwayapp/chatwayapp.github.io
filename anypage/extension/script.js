@@ -19,7 +19,7 @@ var bookmarkLauncherSetup = (function () {
             switch (String.fromCharCode(event.keyCode)) {
                 case 'C':
                     show = !show;
-                    console.log('shortcut pressed', show);
+                    // console.log('shortcut pressed', show);
                     if (show) {
                         document.querySelector('chatway-anypage').style.display = 'block';
                     } else {

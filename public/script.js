@@ -7,6 +7,8 @@ var script = (async function () {
 
     // Init
 
+    var init = false;
+
     $('loading').css('opacity', 1);
 
     const fbConfig = {
@@ -29,25 +31,44 @@ var script = (async function () {
 
     var credentials;
     var user;
-    var fbUser = fbAuth.currentUser;
+    var fbUser;
 
-    setTimeout(function () {
-        console.log('fbAuth', fbAuth, fbAuth['currentUser'], fbAuth.currentUser, fbUser);
-    }, 1000);
+    onAuthStateChanged(fbAuth, (result) => {
+        const removeLoadingElement = () => {
+            if (!init) {
+                setTimeout(() => {
+                    $('.loading-container').css('width', '5vh');
+                    $('.loading-container').css('height', '5vh');
+                    $('.loading-container').css('border-radius', '50%');
+                    $('.loading-container').css('opacity', 0);
+                    $('.loading-container').css('margin-bottom', '125vh');
+                    setTimeout(() => {
+                        $('#loading-master').remove();
+                    }, 750);
+                }, 750);
+                init = true;
+            }
+        };
 
-    if (fbUser != null && fbUser.accessToken != user.accessToken) {
-        jwtSignIn(fbUser.accessToken).then(() => {
-            console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
-            signedInUserChange(true, { user: fbUser });
-        }).catch((error) => {
+        fbUser = result?.auth.currentUser;
+        if (fbUser != null && fbUser.accessToken != user?.accessToken) {
+            jwtSignIn(fbUser.accessToken).then(() => {
+                // console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
+                signedInUserChange(true, { user: fbUser });
+                removeLoadingElement();
+            }).catch((error) => {
+                signedInUserChange(false);
+                removeLoadingElement();
+                // console.log(error);
+            });
+        } else {
             signedInUserChange(false);
-            console.log(error);
-        });
-    } else {
-        signedInUserChange(false);
-    }
+            removeLoadingElement();
+        }
+    });
 
     // mongoDB Atlas
+
     var mongo;
     var collection;
 
@@ -59,23 +80,8 @@ var script = (async function () {
 
     // MAIN SCRIPT STRATS
 
-    setTimeout(() => {
-        $('.loading-container').css('width', '5vh');
-        $('.loading-container').css('height', '5vh');
-        $('.loading-container').css('border-radius', '50%');
-        $('.loading-container').css('opacity', 0);
-        $('.loading-container').css('margin-bottom', '125vh');
-        setTimeout(() => {
-            $('#loading-master').remove();
-        }, 750);
-    }, 750);
-
     $(window).on('hashchange', function () {
         hashChange();
-    });
-
-    $('.dropdown-item').on('click', function () {
-        $('.user-dropdown').removeClass('show');
     });
 
     function hashChange() {
@@ -104,7 +110,7 @@ var script = (async function () {
 
     function signedInUserChange(bool, result) {
         if (bool) {
-            console.log('sign in result', result);
+            // console.log('sign in result', result);
             mongo = app.currentUser.mongoClient('mongodb-atlas');
             collection = mongo.db('chatway').collection('chat');
             $('.sidebar-username').html(result.user.displayName || fbAuth.currentUser.displayName);
@@ -126,20 +132,18 @@ var script = (async function () {
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
         }
         homePanelWelcomeChange();
+        $('.dropdown-item').on('click', function () {
+            $('.user-dropdown').removeClass('show');
+        });
         $('#sign-in').on('click', function () {
             // change to sign in popup later
             if ($(this).attr('id') == 'sign-in') {
-                signInWithPopup(fbAuth, ghAuthProvider)
-                    .then((result) => {
-                        ghSignIn(result)
-                    }).catch((error) => {
-                        console.error(error);
-                    });
+                signInWithPopup(fbAuth, ghAuthProvider);
             }
             return false;
         });
         $('#sign-out').on('click', function () {
-            console.log('asda')
+            // console.log('asda')
             if ($(this).attr('id') == 'sign-out') {
                 logOut();
             }
@@ -156,15 +160,12 @@ var script = (async function () {
     }
 
     async function ghSignIn(result) {
-        console.log(result.accessToken)
+        // console.log(result.accessToken)
         jwtSignIn(result.accessToken).then(() => {
-            console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
-            setTimeout(() => {
-                location.reload();
-            }, 250);
+            // console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
         }).catch(async (error) => {
             signedInUserChange(false);
-            console.log(error);
+            // console.log(error);
         });
     }
 
