@@ -9,12 +9,12 @@ document.head.appendChild(style);
 const anypage = document.createElement('chatway-anypage');
 const iframe = document.createElement('iframe');
 iframe.setAttribute('id', 'chatway-anypage');
-iframe.setAttribute('src', 'https://chatwayapp.github.io/anypage/chat.html');
+iframe.setAttribute('src', 'https://chatwayapp.github.io/anypage/');
 anypage.appendChild(iframe);
 document.body.appendChild(anypage);
 
 var bookmarkLauncherSetup = (function () {
-    window.addEventListener('keyup', function () {
+    window.addEventListener('keyup', function (e) {
         if (!event.shiftKey && event.altKey) {
             switch (String.fromCharCode(event.keyCode)) {
                 case 'C':

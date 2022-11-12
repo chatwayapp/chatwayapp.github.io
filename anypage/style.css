@@ -28,12 +28,13 @@ loading {
     0% {
         transform: rotate(180deg);
     }
+
     100% {
         transform: rotate(540deg);
     }
 }
 
-/* Welcome */
+/* Main */
 .sign-in {
     padding: 6px 14px;
     background: rgb(20, 25, 30);
@@ -73,6 +74,13 @@ loading {
     border-radius: 8px;
 }
 
+#main {
+    width: 384px;
+    height: 384px;
+    border-radius: 12px;
+    transition: all 250ms;
+}
+
 .join-btn {
     text-align: center;
     font-weight: 500;
@@ -90,6 +98,115 @@ loading {
 .join-btn:hover {
     background: rgb(40, 45, 50);
     border-radius: 128px;
+}
+
+/* Chat Nav Bar */
+
+.chat-nav {
+    position: fixed;
+    width: 364px;
+    margin: 8px 8px 0 8px;
+    padding: 8px;
+    background: rgba(20, 25, 30, 0.5);
+    border-radius: 100vw;
+    transition: all 250ms;
+}
+
+.chat-nav-bg {
+    position: fixed;
+    width: 364px;
+    margin: 8px 8px 0 8px;
+    padding: 8px;
+    background: rgba(20, 25, 30, 0.875);
+    border-radius: 100vw;
+    filter: blur();
+}
+
+.chat-nav-bg a {
+    opacity: 0;
+}
+
+.back-btn {
+    cursor: pointer;
+    transition: all 250ms;
+}
+
+/* Messages */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(69, 69, 69, 0.75);
+    border-radius: 100vh;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(86, 86, 86, 0.75);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(100, 100, 100, 0.75);
+}
+
+.chat {
+    display: fixed;
+    width: 384px;
+    height: 384px;
+    padding: 48px 4px 8px 8px;
+    overflow-y: scroll;
+    border-radius: 12px;
+}
+
+you,
+them,
+name,
+comment {
+    display: block;
+}
+
+you {
+    margin: 18px 0 6px 0;
+    right: 0;
+    text-align: right;
+}
+
+you message {
+    color: white;
+    background: #007ACC;
+}
+
+them {
+    left: 0;
+    text-align: left;
+}
+
+them.no-name {
+    margin: 18px 0 6px 0;
+}
+
+them message {
+    color: black;
+    background: #dbdbdb;
+}
+
+name {
+    font-size: 12px;
+    padding: 0 0 6px 12px;
+}
+
+message {
+    padding: 7px 11px;
+    font-size: 16px;
+    border-radius: 100vw;
+}
+
+comment {
+    margin: 12px;
+    color: gray;
+    font-size: 12px;
+    text-align: center;
 }
 
 /* General */

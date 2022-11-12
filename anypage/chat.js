@@ -7,6 +7,8 @@ var script = (async function () {
 
     // Init
 
+    $('loading').css('opacity', 1);
+
     var init = false;
 
     var bookmarkLauncherSetup = (function () {
@@ -30,7 +32,28 @@ var script = (async function () {
         });
     }());
 
-    $('loading').css('opacity', 1);
+    const params = new URLSearchParams(window.location.search);
+    var type = params.get('type');
+    var id;
+
+    switch (type) {
+        case 'gc':
+            id = params.get('id');
+            break;
+        case 'dm':
+            if (params.get('id') != null) {
+                id = params.get('id');
+            } else if (params.get('username') != null) {
+                id = params.get('username');
+            } else {
+                alert('Please provide a valid id or username');
+                location = '.';
+            }
+            break;
+        default:
+            alert('Please enter a valid URL');
+            location = '.';
+    }
 
     const fbConfig = {
         apiKey: "AIzaSyCKyB0DjjSJc1nF5lq8OITRZz7PNQtnZIg",
@@ -54,9 +77,17 @@ var script = (async function () {
     var user;
     var fbUser;
 
+    // mongoDB Atlas
+
+    var mongo;
+    var collection;
+
+    // Sign In
+
     onAuthStateChanged(fbAuth, (result) => {
         const removeLoadingElement = () => {
             if (!init) {
+                $('#main-in').css('display', 'flex');
                 setTimeout(() => {
                     $('.loading-container').css('width', '5vh');
                     $('.loading-container').css('height', '5vh');
@@ -75,83 +106,18 @@ var script = (async function () {
         if (fbUser != null && fbUser.accessToken != user?.accessToken) {
             jwtSignIn(fbUser.accessToken).then(() => {
                 // console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
-                signedInUserChange(true, { user: fbUser });
+                mongo = app.currentUser.mongoClient('mongodb-atlas');
+                collection = mongo.db('chatway').collection('chat');
                 removeLoadingElement();
             }).catch((error) => {
-                signedInUserChange(false);
-                removeLoadingElement();
-                console.error(error);
+                location.href = '.';
             });
         } else {
-            signedInUserChange(false);
-            removeLoadingElement();
+            location.href = '.';
         }
     });
 
-    // mongoDB Atlas
-
-    var mongo;
-    var collection;
-
     // MAIN SCRIPT STRATS
-
-    function signedInUserChange(bool, result) {
-        if (bool) {
-            mongo = app.currentUser.mongoClient('mongodb-atlas');
-            collection = mongo.db('chatway').collection('chat');
-            $('#main-in').css('display', 'flex');
-            $('#main-out').css('display', 'none');
-        } else {
-            $('#main-out').css('display', 'flex');
-            $('#main-in').css('display', 'none');
-        }
-        welcomeChange();
-        $('#sign-in').on('click', function () {
-            // change to sign in popup later
-            if ($(this).attr('id') == 'sign-in') {
-                signInWithPopup(fbAuth, ghAuthProvider);
-            }
-            return false;
-        });
-        $('#sign-out').on('click', function () {
-            // console.log('asda')
-            if ($(this).attr('id') == 'sign-out') {
-                logOut();
-            }
-            return false;
-        });
-        $('#join-gc').on('click', function () {
-            if ($('#chat-id').val().search(/[a-z][a-z][0-9][0-9][0-9][0-9]/i) == 0) {
-                location.href = './chat.html?type=gc&id=' + $('#chat-id').val();
-            } else {
-                alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters, followed by 4 numbers.)');
-            }
-        });
-        $('#join-dm-username').on('click', function () {
-            location.href = './chat.html?type=dm&username=' + $('#username').val();
-        });
-        $('#join-dm-id').on('click', function () {
-            location.href = './chat.html?type=dm&id=' + $('user-id').val();
-        });
-    }
-
-    function welcomeChange() {
-        if (fbAuth.currentUser != null) {
-            $('#welcome').html('Welcome back, <br>' + fbAuth.currentUser.displayName + '!');
-        } else {
-            $('#welcome').html('Welcome!');
-        }
-    }
-
-    async function ghSignIn(result) {
-        // console.log('ghResult', result.user ?? 'no data')
-        jwtSignIn(result.user.accessToken).then(() => {
-            // console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
-        }).catch(async (error) => {
-            signedInUserChange(false);
-            console.error(error);
-        });
-    }
 
     async function jwtSignIn(jwt) {
         credentials = Realm.Credentials.jwt(jwt);
