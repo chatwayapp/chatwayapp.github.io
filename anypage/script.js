@@ -42,7 +42,7 @@ var script = (async function () {
         measurementId: "G-7KRMXHEXQP"
     };
 
-    const app = new Realm.App({ id: 'chatwayapp-zsdqh' });
+    const app = new Realm.App({ id: 'chatwaytest-aqoco' });
     const fbApp = initializeApp(fbConfig);
 
     const analytics = getAnalytics(fbApp);
