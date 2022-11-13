@@ -164,7 +164,7 @@ loading {
 .chat {
     display: fixed;
     width: 384px;
-    height: 352px;
+    height: 348px;
     padding: 36px 4px 8px 8px;
     overflow-y: scroll;
     border-radius: 12px;
@@ -239,7 +239,7 @@ comment {
 #send {
     width: 28px;
     height: 28px;
-    padding: 6px 6px 6px 8px;
+    padding: 6px 6px 6px 7px;
     text-align: center;
     background: rgb(40, 45, 50);
     border-radius: 8px;
