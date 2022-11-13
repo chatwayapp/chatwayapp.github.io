@@ -11,26 +11,43 @@ var script = (async function () {
 
     var init = false;
 
-    var bookmarkLauncherSetup = (function () {
-        window.addEventListener('keyup', function () {
-            if (!event.shiftKey && event.altKey) {
-                switch (String.fromCharCode(event.keyCode)) {
-                    case 'C':
-                        const show = $('body').css('display') != 'block';
-                        // console.log('shortcut pressed from iframe', show);
-                        if (show) {
-                            $('html').css('background', 'rgba(30, 35, 40, 1)');
-                            $('body').css('display', 'block');
-                        } else {
-                            $('html').css('background', 'rgba(30, 35, 40, 0)');
-                            $('body').css('display', 'none');
-                        }
-                    case 'R':
-                        location.reload();
-                }
+    if (localStorage.getItem('accessibility') == null) {
+        $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
+        localStorage.setItem('accessibility', 'false');
+    } else if (localStorage.getItem('accessibility') == 'true') {
+        $('link[href="./accessibility/style.css"]').attr('rel', 'alternate stylesheet');
+    } else {
+        $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
+    }
+
+    window.addEventListener('keyup', function () {
+        if (!event.shiftKey && event.altKey) {
+            switch (String.fromCharCode(event.keyCode)) {
+                case 'A':
+                    if ($('link[href="./accessibility/style.css"]').attr('rel') != 'stylesheet') {
+                        $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
+                        localStorage.setItem('accessibility', 'false');
+                    } else {
+                        $('link[href="./accessibility/style.css"]').attr('rel', 'alternate stylesheet');
+                        localStorage.setItem('accessibility', 'true');
+                    }
+                    break;
+                case 'C':
+                    const show = $('body').css('display') != 'block';
+                    // console.log('shortcut pressed from iframe', show);
+                    if (show) {
+                        $('html').css('background', 'rgba(40, 45, 50, 1)');
+                        $('body').css('display', 'block');
+                    } else {
+                        $('html').css('background', 'rgba(40, 45, 50, 0)');
+                        $('body').css('display', 'none');
+                    }
+                    break;
+                case 'R':
+                    location.reload();
             }
-        });
-    }());
+        }
+    });
 
     const params = new URLSearchParams(window.location.search);
     var type = params.get('type');
@@ -87,6 +104,14 @@ var script = (async function () {
     onAuthStateChanged(fbAuth, (result) => {
         const removeLoadingElement = () => {
             if (!init) {
+                $('#message').on('keypress', function (e) {
+                    if (e.which == 13) {
+                        send();
+                    }
+                });
+                $('#send').on('click', function () {
+                    send();
+                });
                 $('#main-in').css('display', 'flex');
                 setTimeout(() => {
                     $('.loading-container').css('width', '5vh');
@@ -117,7 +142,9 @@ var script = (async function () {
         }
     });
 
-    // MAIN SCRIPT STRATS
+    async function send() {
+        $('#message').val('');
+    }
 
     async function jwtSignIn(jwt) {
         credentials = Realm.Credentials.jwt(jwt);

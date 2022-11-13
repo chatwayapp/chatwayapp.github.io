@@ -1,7 +1,7 @@
 html,
 body {
     color: white;
-    background: rgb(30, 35, 40);
+    background: rgba(40, 45, 50, 1);
     overflow: hidden;
 }
 
@@ -41,12 +41,11 @@ loading {
     color: white;
     border: 0;
     border-radius: 128px;
-    cursor: pointer;
     transition: all 250ms;
 }
 
 .sign-in:hover {
-    background: rgb(40, 45, 50) !important;
+    background: rgb(50, 55, 60) !important;
 }
 
 .sign-out {
@@ -56,7 +55,6 @@ loading {
     color: white;
     border: 0;
     border-radius: 128px;
-    cursor: pointer;
     transition: all 250ms;
 }
 
@@ -77,6 +75,7 @@ loading {
 #main {
     width: 384px;
     height: 384px;
+    background: rgb(30, 35, 40);
     border-radius: 12px;
     transition: all 250ms;
 }
@@ -91,7 +90,6 @@ loading {
     color: white;
     border: 0;
     border-radius: 8px;
-    cursor: pointer;
     transition: all 250ms;
 }
 
@@ -102,32 +100,45 @@ loading {
 
 /* Chat Nav Bar */
 
-.chat-nav {
+.chat-nav,
+.chat-nav-bg {
     position: fixed;
+    display: flex;
+    align-items: center;
     width: 364px;
     margin: 8px 8px 0 8px;
-    padding: 8px;
-    background: rgba(20, 25, 30, 0.5);
+    padding: 5px;
     border-radius: 100vw;
     transition: all 250ms;
 }
 
+.chat-nav {
+    background: rgba(20, 25, 30, 0.5);
+}
+
 .chat-nav-bg {
-    position: fixed;
-    width: 364px;
-    margin: 8px 8px 0 8px;
-    padding: 8px;
     background: rgba(20, 25, 30, 0.875);
-    border-radius: 100vw;
     filter: blur();
 }
 
+.chat-nav a {
+    font-size: 16px;
+    padding-right: 8px;
+    background: #dbdbdb;
+    border-radius: 16px;
+    transition: all 250ms;
+}
+
+.chat-nav a:hover {
+    background: #696969;
+}
+
 .chat-nav-bg a {
+    font-size: 16px;
     opacity: 0;
 }
 
 .back-btn {
-    cursor: pointer;
     transition: all 250ms;
 }
 
@@ -153,8 +164,8 @@ loading {
 .chat {
     display: fixed;
     width: 384px;
-    height: 384px;
-    padding: 48px 4px 8px 8px;
+    height: 352px;
+    padding: 36px 4px 8px 8px;
     overflow-y: scroll;
     border-radius: 12px;
 }
@@ -209,6 +220,37 @@ comment {
     text-align: center;
 }
 
+.message-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(69, 69, 69, 0.75);
+    border-radius: 12px;
+}
+
+#message {
+    width: 344px;
+    height: 28px;
+    padding: 6px !important;
+    color: gray;
+    font-size: 14px;
+    text-align: left !important;
+}
+
+#send {
+    width: 28px;
+    height: 28px;
+    padding: 6px 6px 6px 8px;
+    text-align: center;
+    background: rgb(40, 45, 50);
+    border-radius: 8px;
+    transition: all 250ms;
+}
+
+#send:hover {
+    background: rgb(50, 55, 60);
+    border-radius: 28px;
+}
+
 /* General */
 
 nothing {
@@ -250,6 +292,7 @@ nothing {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .a-btn:hover {
