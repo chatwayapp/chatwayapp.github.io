@@ -7,16 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
+    <style>
+        html,
+        body {
+            color: white;
+            background: rgba(40, 45, 50, 1);
+            overflow: hidden;
+        }
+
+        h6 {
+            margin: 12px;
+        }
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+            padding: 6px 14px;
+            background: rgb(20, 25, 30);
+            color: white;
+            border: 0;
+            border-radius: 128px;
+            transition: all 250ms;
+        }
+
+        a:hover {
+            color: unset !important;
+            background: rgb(50, 55, 60) !important;
+        }
+
+        .center-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .full-s {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
     <title>install chatway anypage</title>
 </head>
 
 <body class="center-container full-s">
 
     <div style="text-align: center;">
-        <a onclick="browser.bookmarks.create({title: 'chatway anypage', url: 'const chatwayBookmarkScript = document.createElement(\'script\'); chatwayBookmarkScript.setAttribute(\'type\', \'module\'); chatwayBookmarkScript.setAttribute(\'src\', \'https://chatwayapp.github.io/anypage/extension/script.js\'); document.body.appendChild(chatwayBookmarkScript);' });"
-            class='a-btn sign-in'>Add to bookmarks</a>
-        <comment>Supported browsers: Chrome, Edge, Firefox, Opera</comment>
+        <h2>install chatway anypage</h2>
+        <h6>1. Drag the button below to your bookmarks/favorites bar.</h6>
+        <a onclick="return false;"
+            href="javascript:const chatwayBookmarkScript=document.createElement('script');chatwayBookmarkScript.setAttribute('type','module'),chatwayBookmarkScript.setAttribute('src','https://chatwayapp.github.io/anypage/extension/script.js'),document.body.appendChild(chatwayBookmarkScript);"
+            class="a-btn sign-in">chatway anypage</a>
+        <h6>2. You're done! Click the bookmark on any website that doesn't block this type of code injection and chatway
+            would appear on your screen!</h6>
+        <h6>Helpful information: Clicking the bookmark multiple times will NOT do anything.</h6>
+        <h5>Shortcuts</h5>
+        <p>Alt+A to toggle accessibility options</p>
+        <p>Alt+C to show/hide chatway</p>
+        <p>Alt+R to reload chatway</p>
     </div>
 
 </body>
