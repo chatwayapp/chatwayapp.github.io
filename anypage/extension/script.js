@@ -14,9 +14,9 @@ anypage.appendChild(iframe);
 document.body.appendChild(anypage);
 
 window.addEventListener('keyup', function (e) {
-    if (!event.shiftKey && event.altKey) {
-        switch (String.fromCharCode(event.keyCode)) {
-            case 'C':
+    if (!e.shiftKey && e.altKey && document.body == document.activeElement) {
+        switch (e.key) {
+            case 'C': case 'ç':
                 show = !show;
                 // console.log('shortcut pressed', show);
                 if (show) {
@@ -25,7 +25,7 @@ window.addEventListener('keyup', function (e) {
                     document.querySelector('chatway-anypage').style.display = 'none';
                 }
                 break;
-            case 'R':
+            case 'R': case '®':
                 document.getElementById('chatway-anypage').contentDocument.location.reload(true);
         }
     }

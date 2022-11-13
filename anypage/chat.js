@@ -20,10 +20,10 @@ var script = (async function () {
         $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
     }
 
-    window.addEventListener('keyup', function () {
-        if (!event.shiftKey && event.altKey) {
-            switch (String.fromCharCode(event.keyCode)) {
-                case 'A':
+    window.addEventListener('keyup', function (e) {
+        if (!e.shiftKey && e.altKe && document.body == document.activeElementy) {
+            switch (e.key) {
+                case 'A': case 'å':
                     if ($('link[href="./accessibility/style.css"]').attr('rel') != 'stylesheet') {
                         $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
                         localStorage.setItem('accessibility', 'false');
@@ -32,7 +32,7 @@ var script = (async function () {
                         localStorage.setItem('accessibility', 'true');
                     }
                     break;
-                case 'C':
+                case 'C': case 'ç':
                     const show = $('body').css('display') != 'block';
                     // console.log('shortcut pressed from iframe', show);
                     if (show) {
@@ -43,7 +43,7 @@ var script = (async function () {
                         $('body').css('display', 'none');
                     }
                     break;
-                case 'R':
+                case 'R': case '®':
                     location.reload();
             }
         }
@@ -98,12 +98,27 @@ var script = (async function () {
 
     var mongo;
     var collection;
+    var chat;
+
+    var lastMsg = -1;
 
     // Sign In
 
     onAuthStateChanged(fbAuth, (result) => {
         const removeLoadingElement = () => {
             if (!init) {
+                const watcher = (async () => {
+                    for await (const change of collection.watch()) {
+                        const doc = change.fullDocument;
+                        for (var i = 1; i <= parseInt(Object.keys(doc).at(-1).replace('sender', '')) - lastMsg; i++) {
+                            insert({
+                                sender: doc['sender' + (lastMsg + i)],
+                                message: doc['msg' + (lastMsg + i)]
+                            });
+                            lastMsg++;
+                        }
+                    }
+                })();
                 $('#message').on('keypress', function (e) {
                     if (e.which == 13) {
                         send();
@@ -130,10 +145,50 @@ var script = (async function () {
 
         fbUser = result?.auth.currentUser;
         if (fbUser != null && fbUser.accessToken != user?.accessToken) {
-            jwtSignIn(fbUser.accessToken).then(() => {
+            jwtSignIn(fbUser.accessToken).then(async () => {
                 // console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
                 mongo = app.currentUser.mongoClient('mongodb-atlas');
-                collection = mongo.db('chatway').collection('chat');
+                switch (type) {
+                    case 'gc':
+                        collection = mongo.db('chatway').collection('rooms');
+                        chat = await collection.findOne({ id: id });
+                        break;
+                    case 'dm':
+                        if (params.get('id') != null) {
+                            collection = mongo.db('chatway').collection('dms');
+                            chat = await collection.findOne({ p1id: user.id }) || await collection.findOne({ p2id: user.id });
+                        } else if (params.get('username') != null) {
+                            collection = mongo.db('chatway').collection('dms');
+                            chat = await collection.findOne({ p1: user.displayName }) || await collection.findOne({ p2: user.displayName });
+                        } else {
+                            alert('Invalid Request. Please report this to the developers.');
+                            location = '.';
+                        }
+                        break;
+                    default:
+                        alert('Invalid Request. Please report this to the developers.');
+                        location = '.';
+                }
+                if (chat?._id != null) {
+                    var msgNum = 0;
+                    while (true) {
+                        const current = chat['msg' + msgNum];
+                        const sender = chat['sender' + msgNum];
+                        if (current != null && sender != null) {
+                            insert({
+                                sender: sender,
+                                message: current
+                            });
+                            msgNum++;
+                        } else {
+                            lastMsg = msgNum - 1;
+                            break;
+                        }
+                    }
+                } else {
+                    alert('Invalid Request. Please report this to the developers.');
+                    location = '.';
+                }
                 removeLoadingElement();
             }).catch((error) => {
                 location.href = '.';
@@ -144,7 +199,59 @@ var script = (async function () {
     });
 
     async function send() {
+        var update;
+        const message = $('#message').val();
         $('#message').val('');
+        switch (type) {
+            case 'gc':
+                update = await collection.updateOne(
+                    { id: id },
+                    { $set: { ['msg' + (lastMsg + 1)]: message, ['sender' + (lastMsg + 1)]: fbUser.displayName } }
+                );
+                break;
+            case 'dm':
+                if (params.get('id') != null) {
+                    update = await collection.updateOne(
+                        { p1id: user.id },
+                        { $set: { ['msg' + (lastMsg + 1)]: message, ['sender' + (lastMsg + 1)]: fbUser.displayName } }
+                    ) || await collection.updateOne(
+                        { p2id: user.id },
+                        { $set: { ['msg' + (lastMsg + 1)]: message, ['sender' + (lastMsg + 1)]: fbUser.displayName } }
+                    );
+                } else if (params.get('username') != null) {
+                    update = await collection.updateOne(
+                        { p1: fbUser.displayName },
+                        { $set: { ['msg' + (lastMsg + 1)]: message, ['sender' + (lastMsg + 1)]: fbUser.displayName } }
+                    ) || await collection.updateOne(
+                        { p2: fbUser.displayName },
+                        { $set: { ['msg' + (lastMsg + 1)]: message, ['sender' + (lastMsg + 1)]: fbUser.displayName } }
+                    );
+                } else {
+                    alert('Invalid Request. Please report this to the developers.');
+                }
+                break;
+            default:
+                alert('Invalid Request. Please report this to the developers.');
+        }
+    }
+
+    async function insert(data) {
+        const container = document.createElement(data.sender == fbUser.displayName ? 'you' : 'them');
+        const msgBox = document.createElement('msg-box');
+        const msg = document.createElement('message');
+        const sender = document.createElement('sender');
+        msg.innerHTML = data.message;
+        if (type == 'gc' && data.sender != fbUser.displayName) {
+            msg.setAttribute('style', 'margin-top: 1.375rem !important;');
+            sender.innerHTML = data.sender;
+        }
+        msgBox.appendChild(sender);
+        msgBox.appendChild(msg);
+        container.appendChild(msgBox);
+        document.getElementsByClassName('chat')[0].appendChild(container);
+        if (fbUser.displayName == data.sender) {
+            document.getElementsByClassName('chat')[0].scrollTo(0, document.getElementsByClassName('chat')[0].scrollHeight);
+        }
     }
 
     async function jwtSignIn(jwt) {

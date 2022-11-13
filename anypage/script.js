@@ -20,10 +20,11 @@ var script = (async function () {
         $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
     }
 
-    window.addEventListener('keyup', function () {
-        if (!event.shiftKey && event.altKey) {
-            switch (String.fromCharCode(event.keyCode)) {
-                case 'A':
+    window.addEventListener('keyup', function (e) {
+        if (!e.shiftKey && e.altKey && document.body == document.activeElement) {
+            console.log(e.key)
+            switch (e.key) {
+                case 'A': case 'å':
                     if ($('link[href="./accessibility/style.css"]').attr('rel') != 'stylesheet') {
                         $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
                         localStorage.setItem('accessibility', 'false');
@@ -32,7 +33,7 @@ var script = (async function () {
                         localStorage.setItem('accessibility', 'true');
                     }
                     break;
-                case 'C':
+                case 'C': case 'ç':
                     const show = $('body').css('display') != 'block';
                     // console.log('shortcut pressed from iframe', show);
                     if (show) {
@@ -43,7 +44,7 @@ var script = (async function () {
                         $('body').css('display', 'none');
                     }
                     break;
-                case 'R':
+                case 'R': case '®':
                     location.reload();
             }
         }
@@ -105,17 +106,10 @@ var script = (async function () {
         }
     });
 
-    // mongoDB Atlas
-
-    var mongo;
-    var collection;
-
     // MAIN SCRIPT STRATS
 
     function signedInUserChange(bool, result) {
         if (bool) {
-            mongo = app.currentUser.mongoClient('mongodb-atlas');
-            collection = mongo.db('chatway').collection('chat');
             $('#main-in').css('display', 'flex');
             $('#main-out').css('display', 'none');
         } else {
