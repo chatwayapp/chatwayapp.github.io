@@ -100,12 +100,10 @@ loading {
 
 /* Chat Nav Bar */
 
-.chat-nav,
-.chat-nav-bg {
+.chat-nav {
     position: fixed;
     display: flex;
     align-items: center;
-    width: 364px;
     margin: 8px 8px 0 8px;
     padding: 5px;
     border-radius: 100vw;
@@ -114,11 +112,6 @@ loading {
 
 .chat-nav {
     background: rgba(20, 25, 30, 0.5);
-}
-
-.chat-nav-bg {
-    background: rgba(20, 25, 30, 0.875);
-    filter: blur();
 }
 
 .chat-nav a {
@@ -133,11 +126,6 @@ loading {
     background: #696969;
 }
 
-.chat-nav-bg a {
-    font-size: 16px;
-    opacity: 0;
-}
-
 .back-btn {
     transition: all 250ms;
 }
@@ -145,7 +133,7 @@ loading {
 /* Messages */
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -177,29 +165,38 @@ comment {
     display: block;
 }
 
-you {
-    margin: 18px 0 6px 0;
-    right: 0;
-    text-align: right;
+msg-box {
+    display: flex;
+    width: 100%;
 }
 
-you message {
-    color: white;
-    background: #007ACC;
+you msg-box {
+    justify-content: right;
 }
 
-them {
-    left: 0;
-    text-align: left;
+them msg-box {
+    justify-content: left;
 }
 
-them.no-name {
-    margin: 18px 0 6px 0;
+message {
+    margin: 0.375rem 0;
+    padding: 0.375rem 0.625rem 0.5rem 0.625rem;
+    max-width: 80%;
+    font-size: 15px;
+    border-radius: 16px;
+    line-height: 125%;
 }
 
 them message {
     color: black;
     background: #dbdbdb;
+    float: left;
+}
+
+you message {
+    color: white;
+    background: #007acc;
+    float: right;
 }
 
 name {
@@ -207,14 +204,8 @@ name {
     padding: 0 0 6px 12px;
 }
 
-message {
-    padding: 7px 11px;
-    font-size: 16px;
-    border-radius: 100vw;
-}
-
 comment {
-    margin: 12px;
+    margin: 16px 12px 12px 12px;
     color: gray;
     font-size: 12px;
     text-align: center;

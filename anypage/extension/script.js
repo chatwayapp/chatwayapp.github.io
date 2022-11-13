@@ -3,7 +3,7 @@ var show = true;
 
 const style = document.createElement('link');
 style.setAttribute('rel', 'stylesheet');
-style.setAttribute('href', 'https://chatwayapp.github.io/anypage/root-style.css');
+style.setAttribute('href', 'https://chatwayapp.github.io/anypage/extension/root-style.css');
 document.head.appendChild(style);
 
 const anypage = document.createElement('chatway-anypage');

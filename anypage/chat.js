@@ -113,6 +113,7 @@ var script = (async function () {
                     send();
                 });
                 $('#main-in').css('display', 'flex');
+                document.getElementsByClassName('chat')[0].scrollTo(0, document.getElementsByClassName('chat')[0].scrollHeight);
                 setTimeout(() => {
                     $('.loading-container').css('width', '5vh');
                     $('.loading-container').css('height', '5vh');
