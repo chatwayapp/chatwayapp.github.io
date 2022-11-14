@@ -114,7 +114,36 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
                 const removeLoadingElement = () => {
                     if (!init) {
                         const watcher = (async () => {
-                            for await (const change of collection.watch()) {
+                            const docIdType = () => {
+                                switch (type) {
+                                    case 'gc':
+                                        return 'id';
+                                        break;
+                                    case 'dm':
+                                        if (params.get('id') != null) {
+                                            return 'p1id'; // research how to make it work with p1 and p2 id at the same time, maybe return whole filter object?
+                                            collection = mongo.db('chatway').collection('dms');
+                                            chat = await collection.findOne({ p1id: user.id }) || await collection.findOne({ p2id: user.id });
+                                        } else if (params.get('username') != null) {
+                                            return 'p1'; // same research for username as id
+                                            collection = mongo.db('chatway').collection('dms');
+                                            chat = await collection.findOne({ p1: user.displayName }) || await collection.findOne({ p2: user.displayName });
+                                        } else {
+                                            alert('Invalid Request. Please report this to the developers.');
+                                            location = '.';
+                                        }
+                                        break;
+                                    default:
+                                        alert('Invalid Request. Please report this to the developers.');
+                                        location = '.';
+                                }
+                            };
+                            for await (const change of collection.watch({
+                                filter: {
+                                    operationType: "update",
+                                    ["fullDocument." + docIdType()]: id,
+                                },
+                            })) {
                                 const doc = change.fullDocument;
                                 for (var i = 1; i <= parseInt(Object.keys(doc).at(-1).replace('sender', '')) - lastMsg; i++) {
                                     insert({
