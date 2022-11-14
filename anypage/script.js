@@ -24,7 +24,7 @@ var script = (async function () {
         if (!e.shiftKey && e.altKey && document.body == document.activeElement) {
             console.log(e.key)
             switch (e.key) {
-                case 'A': case 'å':
+                case 'a': case 'å':
                     if ($('link[href="./accessibility/style.css"]').attr('rel') != 'stylesheet') {
                         $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
                         localStorage.setItem('accessibility', 'false');
@@ -33,7 +33,7 @@ var script = (async function () {
                         localStorage.setItem('accessibility', 'true');
                     }
                     break;
-                case 'C': case 'ç':
+                case 'c': case 'ç':
                     const show = $('body').css('display') != 'block';
                     // console.log('shortcut pressed from iframe', show);
                     if (show) {
@@ -44,7 +44,7 @@ var script = (async function () {
                         $('body').css('display', 'none');
                     }
                     break;
-                case 'R': case '®':
+                case 'r': case '®':
                     location.reload();
             }
         }

@@ -26,7 +26,7 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
             window.addEventListener('keyup', function (e) {
                 if (!e.shiftKey && e.altKe && document.body == document.activeElementy) {
                     switch (e.key) {
-                        case 'A': case 'å':
+                        case 'a': case 'å':
                             if ($('link[href="./accessibility/style.css"]').attr('rel') != 'stylesheet') {
                                 $('link[href="./accessibility/style.css"]').attr('rel', 'stylesheet');
                                 localStorage.setItem('accessibility', 'false');
@@ -35,7 +35,7 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
                                 localStorage.setItem('accessibility', 'true');
                             }
                             break;
-                        case 'C': case 'ç':
+                        case 'c': case 'ç':
                             const show = $('body').css('display') != 'block';
                             // console.log('shortcut pressed from iframe', show);
                             if (show) {
@@ -46,7 +46,7 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
                                 $('body').css('display', 'none');
                             }
                             break;
-                        case 'R': case '®':
+                        case 'r': case '®':
                             location.reload();
                     }
                 }
