@@ -21,7 +21,7 @@ var script = (async function () {
     }
 
     window.addEventListener('keyup', function (e) {
-        if (!e.shiftKey && e.altKey && document.body == document.activeElement) {
+        if (!e.shiftKey && e.altKey) {
             console.log(e.key)
             switch (e.key) {
                 case 'a': case 'å':

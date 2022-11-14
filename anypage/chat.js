@@ -24,7 +24,7 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
             }
 
             window.addEventListener('keyup', function (e) {
-                if (!e.shiftKey && e.altKe && document.body == document.activeElementy) {
+                if (!e.shiftKey && e.altKey) {
                     switch (e.key) {
                         case 'a': case 'å':
                             if ($('link[href="./accessibility/style.css"]').attr('rel') != 'stylesheet') {

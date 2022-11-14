@@ -14,7 +14,7 @@ anypage.appendChild(iframe);
 document.body.appendChild(anypage);
 
 window.addEventListener('keyup', function (e) {
-    if (!e.shiftKey && e.altKey && document.body == document.activeElement) {
+    if (!e.shiftKey && e.altKey) {
         switch (e.key) {
             case 'c': case 'ç':
                 show = !show;
