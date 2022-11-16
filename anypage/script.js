@@ -136,7 +136,7 @@ var script = (async function () {
                 if ($('#chat-id').val().search(/[a-z][a-z][0-9][0-9][0-9][0-9]/i) == 0) {
                     location.href = './chat.html?type=gc&id=' + $('#chat-id').val();
                 } else {
-                    alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters, followed by 4 numbers.)');
+                    alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters (lowercase), followed by 4 numbers.)');
                 }
             }
         });
@@ -154,7 +154,7 @@ var script = (async function () {
             if ($('#chat-id').val().search(/[a-z][a-z][0-9][0-9][0-9][0-9]/i) == 0) {
                 location.href = './chat.html?type=gc&id=' + $('#chat-id').val();
             } else {
-                alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters, followed by 4 numbers.)');
+                alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters (lowercase), followed by 4 numbers.)');
             }
         });
         $('#join-dm-username').on('click', function () {
