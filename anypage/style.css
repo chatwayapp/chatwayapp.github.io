@@ -150,10 +150,9 @@ loading {
 }
 
 .chat {
-    display: fixed;
     width: 384px;
     height: 348px;
-    padding: 36px 4px 8px 8px;
+    padding: 42px 4px 8px 8px;
     overflow-y: scroll;
     border-radius: 12px;
 }
@@ -187,7 +186,7 @@ sender {
 
 message {
     margin: 0.375rem 0;
-    padding: 0.425rem 0.625rem;
+    padding: 0.45rem 0.625rem 0.4rem 0.625rem;
     max-width: 80%;
     font-size: 15px;
     border-radius: 16px;
