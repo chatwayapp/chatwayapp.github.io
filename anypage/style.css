@@ -107,11 +107,9 @@ loading {
     margin: 8px 8px 0 8px;
     padding: 5px;
     border-radius: 100vw;
-    transition: all 250ms;
-}
-
-.chat-nav {
     background: rgba(20, 25, 30, 0.5);
+    transition: all 250ms;
+    z-index: 9999;
 }
 
 .chat-nav a {
@@ -166,6 +164,7 @@ comment {
 
 msg-box {
     display: flex;
+    position: relative;
     width: 100%;
 }
 
