@@ -131,10 +131,19 @@ var script = (async function () {
             }
             return false;
         });
+        $('#create-gc').on('click', function () {
+            if ($(this).attr('id') == 'create-gc') {
+                let id = new RandExp(/[a-z][a-z][0-9][0-9][0-9][0-9]/i).gen();
+                id = id.toLowerCase();
+                localStorage.setItem('createId', id);
+                location.href = './chat.html?type=gc&new=1&id=' + id;
+            }
+            return false;
+        });
         $('#chat-id').on('keypress', function (e) {
             if (e.which == 13) {
                 if ($('#chat-id').val().search(/[a-z][a-z][0-9][0-9][0-9][0-9]/i) == 0) {
-                    location.href = './chat.html?type=gc&id=' + $('#chat-id').val();
+                    location.href = './chat.html?type=gc&id=' + $('#chat-id').val().toLowerCase();
                 } else {
                     alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters (lowercase), followed by 4 numbers.)');
                 }
@@ -152,7 +161,7 @@ var script = (async function () {
         });
         $('#join-gc').on('click', function () {
             if ($('#chat-id').val().search(/[a-z][a-z][0-9][0-9][0-9][0-9]/i) == 0) {
-                location.href = './chat.html?type=gc&id=' + $('#chat-id').val();
+                location.href = './chat.html?type=gc&id=' + $('#chat-id').val().toLowerCase();
             } else {
                 alert('Invalid chat ID. (Must be 6 characters long and start with 2 letters (lowercase), followed by 4 numbers.)');
             }
