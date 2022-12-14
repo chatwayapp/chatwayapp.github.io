@@ -42,6 +42,7 @@ var script = (async function () {
                     $('.loading-container').css('border-radius', '50%');
                     $('.loading-container').css('opacity', 0);
                     $('.loading-container').css('margin-bottom', '125vh');
+                    $('main').css('display', 'unset');
                     setTimeout(() => {
                         $('#loading-master').remove();
                     }, 750);
@@ -57,12 +58,11 @@ var script = (async function () {
                 signedInUserChange(true, { user: fbUser });
                 removeLoadingElement();
             }).catch((error) => {
-                signedInUserChange(false);
-                removeLoadingElement();
                 // console.log(error);
+                location.href = '/public/sign-in.html';
             });
         } else {
-            signedInUserChange(false);
+            location.href = '/public/sign-in.html';
             removeLoadingElement();
         }
     });
@@ -82,6 +82,10 @@ var script = (async function () {
 
     $(window).on('hashchange', function () {
         hashChange();
+    });
+
+    $('#user-dropdown-toggle').click(function () {
+        $('#user-dropdown').toggleClass('active');
     });
 
     function hashChange() {
@@ -121,34 +125,25 @@ var script = (async function () {
             $('#user-action-button-holder').html('<a id="sign-out" class="dropdown-item sign-out">Sign Out</a>');
             $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'stylesheet');
             $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'alternate stylesheet');
-        } else {
-            $('.sidebar-username').html('Anonymous');
-            $('.sidebar-user-image').attr('src', 'https://github.com/chatwayapp.png');
-            $('.item-signed-in-only').each(function () {
-                $(this).css('display', 'none');
+            homePanelWelcomeChange();
+            $('.dropdown-item').on('click', function () {
+                $('.user-dropdown').removeClass('show');
             });
-            $('#user-action-button-holder').html('<a id="sign-in" class="dropdown-item sign-in" href="javascript:alert("Please enable popups for sign in to work! (Signing in with redirect is currently not working on Safari 16.1+, for more info, please visit issue #6716 for firebase-js-sdk on GitHub.)")">Sign In</a>');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-out.css"]').attr('rel', 'stylesheet');
-            $('link[href="./public/user-dropdown/user-dropdown-signed-in.css"]').attr('rel', 'alternate stylesheet');
+            $('#sign-in').on('click', function () {
+                // change to sign in popup later
+                if ($(this).attr('id') == 'sign-in') {
+                    signInWithPopup(fbAuth, ghAuthProvider);
+                }
+                return false;
+            });
+            $('#sign-out').on('click', function () {
+                // console.log('asda')
+                if ($(this).attr('id') == 'sign-out') {
+                    logOut();
+                }
+                return false;
+            });
         }
-        homePanelWelcomeChange();
-        $('.dropdown-item').on('click', function () {
-            $('.user-dropdown').removeClass('show');
-        });
-        $('#sign-in').on('click', function () {
-            // change to sign in popup later
-            if ($(this).attr('id') == 'sign-in') {
-                signInWithPopup(fbAuth, ghAuthProvider);
-            }
-            return false;
-        });
-        $('#sign-out').on('click', function () {
-            // console.log('asda')
-            if ($(this).attr('id') == 'sign-out') {
-                logOut();
-            }
-            return false;
-        });
     }
 
     function homePanelWelcomeChange() {
@@ -163,8 +158,8 @@ var script = (async function () {
         // console.log(result.accessToken)
         jwtSignIn(result.accessToken).then(() => {
             // console.log("Successfully logged in with JWT through Realm!", user, fbAuth.currentUser);
-        }).catch(async (error) => {
-            signedInUserChange(false);
+        }).catch((error) => {
+            location.href = '/public/sign-in.html';
             // console.log(error);
         });
     }
