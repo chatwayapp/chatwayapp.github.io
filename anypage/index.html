@@ -28,6 +28,7 @@
                 </h3>
                 <input id="chat-id" type="text" placeholder="Room ID" maxlength="6">
                 <a id="join-gc" class="a-btn join-btn">GC</a>
+                <a id="create-gc" class="a-btn join-btn" style="width: 303px;">Create new room</a>
                 <br>
                 <input id="username" type="text" placeholder="Username" maxlength="16">
                 <a id="join-dm-username" class="a-btn join-btn">DM</a>
@@ -36,10 +37,9 @@
                 <a id="join-dm-id" class="a-btn join-btn">DM</a>
                 <br>
                 <comment style="margin: 8px 24px 0 24px;">
-                    public preview 1 -
+                    public preview 2 -
                     <a href="https://github.com/chatwayapp/chatwayapp.github.io/tree/preview"
-                        target="_blank">GitHub</a><br>
-                    please only use room aa0000
+                        target="_blank">GitHub</a>
                 </comment>
                 <a id="sign-out" class="sign-out a-btn">Sign Out</a>
             </div>
@@ -52,7 +52,7 @@
                 Welcome!
             </h2>
             <a id="sign-in" class="sign-in a-btn"
-                href="javascript:alert('Please enable popups for sign in to work! (Signing in with redirect is currently not working on Safari 16.1+, for more info, please visit issue #6716 for firebase-js-sdk on GitHub.)'')">Sign
+                href="javascript:alert('Please enable popups for sign in to work! (Signing in with redirect is currently not working on Safari 16.1+, for more info, please visit issue #6716 for firebase-js-sdk on GitHub.)')">Sign
                 In</a>
         </div>
     </div>
@@ -63,6 +63,7 @@
         integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/realm-web/dist/bundle.iife.js"></script>
+    <script src="https://github.com/fent/randexp.js/releases/download/v0.4.3/randexp.min.js"></script>
     <script type="module" src="./script.js"></script>
 
 </body>

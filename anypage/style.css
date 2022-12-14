@@ -10,6 +10,7 @@ body {
 .loading-container {
     background: rgb(20, 25, 30);
     transition: all 500ms;
+    z-index: 9999;
 }
 
 loading {
@@ -73,8 +74,8 @@ loading {
 }
 
 #main {
-    width: 384px;
-    height: 384px;
+    width: 448px;
+    height: 448px;
     background: rgb(30, 35, 40);
     border-radius: 12px;
     transition: all 250ms;
@@ -84,7 +85,7 @@ loading {
     text-align: center;
     font-weight: 500;
     margin: 4px;
-    padding: 6px 10px;
+    padding: 7px 10px 6px 10px;
     width: 52px;
     background: rgb(20, 25, 30);
     color: white;
@@ -109,7 +110,7 @@ loading {
     border-radius: 100vw;
     background: rgba(20, 25, 30, 0.5);
     transition: all 250ms;
-    z-index: 9999;
+    z-index: 9998;
 }
 
 .chat-nav a {
@@ -118,6 +119,11 @@ loading {
     background: #dbdbdb;
     border-radius: 16px;
     transition: all 250ms;
+}
+
+.chat-nav #chat-id {
+    margin-left: 5px;
+    color: black;
 }
 
 .chat-nav a:hover {
@@ -148,8 +154,8 @@ loading {
 }
 
 .chat {
-    width: 384px;
-    height: 348px;
+    width: 448px;
+    height: 412px;
     padding: 42px 4px 8px 8px;
     overflow-y: scroll;
     border-radius: 12px;
@@ -232,7 +238,7 @@ comment {
 }
 
 #message {
-    width: 344px;
+    width: 408px;
     height: 28px;
     padding: 6px !important;
     color: gray;
@@ -243,7 +249,7 @@ comment {
 #send {
     width: 28px;
     height: 28px;
-    padding: 6px 6px 6px 7px;
+    padding: 8px 6.25px 6px 7px;
     text-align: center;
     background: rgb(40, 45, 50);
     border-radius: 8px;

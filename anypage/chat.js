@@ -1,3 +1,4 @@
+// deno-lint-ignore-file
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.13.0/firebase-analytics.js";
@@ -58,17 +59,29 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
 
             switch (type) {
                 case 'gc':
-                    id = params.get('id');
+                    if (params.get('new') == '1') {
+                        if (params.get('id') == localStorage.getItem('createId')) {
+                            id = params.get('id');
+                            localStorage.removeItem('createId');
+                        } else {
+                            localStorage.removeItem('createId');
+                            alert('Invalid request: Please provide valid parameters');
+                        }
+                    } else {
+                        id = params.get('id');
+                    }
                     break;
                 case 'dm':
-                    if (params.get('id') != null) {
-                        id = params.get('id');
-                    } else if (params.get('username') != null) {
-                        id = params.get('username');
-                    } else {
-                        alert('Please provide a valid id or username');
-                        location = '.';
-                    }
+                    alert("DMs are curently disabled and under development.")
+                    location = '.';
+                    // if (params.get('id') != null) {
+                    //     id = params.get('id');
+                    // } else if (params.get('username') != null) {
+                    //     id = params.get('username');
+                    // } else {
+                    //     alert('Please provide a valid id or username');
+                    //     location = '.';
+                    // }
                     break;
                 default:
                     alert('Please enter a valid URL');
@@ -186,7 +199,17 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
                         switch (type) {
                             case 'gc':
                                 collection = mongo.db('chatway').collection('rooms');
-                                chat = await collection.findOne({ id: id });
+                                if (params.get('new') == '1') {
+                                    let res = await collection.insertOne({
+                                        id: id,
+                                    });
+                                    chat = await collection.findOne({ _id: res.insertedId });
+                                    history.replaceState(null, document.title, location.href.replace('&new=1', ''));
+                                } else {
+                                    chat = await collection.findOne({ id: id });
+                                }
+                                $('#chat-id').html('⠀' + id);
+                                $('#chat-id').removeAttr('href');
                                 break;
                             case 'dm':
                                 if (params.get('id') != null) {
@@ -276,9 +299,15 @@ import { getAuth, onAuthStateChanged, signOut, GithubAuthProvider } from "https:
                 const msg = document.createElement('message');
                 const sender = document.createElement('sender');
                 msg.innerHTML = data.message;
-                if (type == 'gc' && data.sender != fbUser.displayName) {
-                    msg.setAttribute('style', 'margin-top: 1.375rem !important;');
-                    sender.innerHTML = data.sender;
+                if (type == 'gc') {
+                    sender.setAttribute('sender', data.sender);
+                    let lastUser = [].slice.call(document.getElementsByClassName('chat')[0].children).reverse()[0]?.children[0].children[0].getAttribute('sender');
+                    if (lastUser == data.sender) {
+                        msg.setAttribute('style', 'margin-top: -0.25rem !important;');
+                    } else if (data.sender != fbUser.displayName ) {
+                        msg.setAttribute('style', 'margin-top: 1.375rem !important;');
+                        sender.innerHTML = data.sender;
+                    }
                 }
                 msgBox.appendChild(sender);
                 msgBox.appendChild(msg);

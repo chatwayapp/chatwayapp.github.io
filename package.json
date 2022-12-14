@@ -1,0 +1,29 @@
+{
+  "name": "chatwayapp.github.io",
+  "version": "1.0.0",
+  "description": "🛠️ As a reminder, this is the dev branch of the project, nothing here should be used in production. ### ⚠️ Since this project is still in early development, please contact us if you would like to contribute. 📨 You can email us at chatwayapp@gmail.com for more info!",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chatwayapp/chatwayapp.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chatwayapp/chatwayapp.github.io/issues"
+  },
+  "homepage": "https://github.com/chatwayapp/chatwayapp.github.io#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}

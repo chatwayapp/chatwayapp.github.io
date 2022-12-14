@@ -1,15 +1,15 @@
 chatway-anypage {
     position: fixed;
-    width: 384px;
-    height: 384px;
+    width: 448px;
+    height: 448px;
     right: 16px;
     bottom: 16px;
     z-index: 10000;
 }
 
 chatway-anypage iframe {
-    width: 384px;
-    height: 384px;
+    width: 448px;
+    height: 448px;
     border: 0;
     border-radius: 12px;
 }
